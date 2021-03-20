@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./js/jquery.min.js" charset="utf-8"></script>
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="./index.html">首页</a>
+            <a href="">设备管理</a>
+            <a>
+              <cite>设备</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" id="equipment_name" name="equipment_name" placeholder="请输入设备名称"
+                                   autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button type="button" class="layui-btn" id="equipment_name_search" lay-submit=""
+                                    lay-filter="search"><i
+                                    class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加设备','./equipment-add.html',600,500)"><i
+                            class="layui-icon"></i>添加
+                    </button>
+                </div>
+                <div class="layui-card-body layui-table-body layui-table-main">
+                    <table id="equipment_table" class="layui-table layui-form" lay-filter="equipment_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="equipment_table_tool">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    layui.use(['laydate', 'form', 'table', 'layer'], function () {
+        var laydate = layui.laydate;
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+
+        table.render({
+            elem: '#equipment_table'
+            , height: 520
+            , url: '/getAllEquipment' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                // {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                {field: 'name', title: '设备名', sort: true}
+                , {
+                    field: 'process', title: '工序', sort: true, templet: function (d) {
+                        var res = '';
+                        // console.log(d.process);
+                        switch (d.process) {
+                            case 'VisualInspection':
+                                res = '目检';
+                                break;
+                            case 'Thickness':
+                                res = '厚度';
+                                break;
+                            case 'Resistivity':
+                                res = '电阻率';
+                                break;
+                            case 'Particles':
+                                res = '颗粒';
+                                break;
+                            case 'PutOnShelf':
+                                res = '成品上架';
+                                break;
+                            case 'FinalInspection':
+                                res = '终检';
+                                break;
+                            case 'Monitor':
+                                res = '班长';
+                                break;
+                        }
+                        return res;
+                    }
+                }
+                , {
+                    field: 'status', title: '状态', sort: true, templet: function (d) {
+                        if (d.status == 0) {
+                            return '启用';
+                        } else {
+                            return '停用';
+                        }
+                    }
+                }, {title: '操作', align: 'center', toolbar: '#equipment_table_tool'} //这里的toolbar值是模板元素的选择器
+            ]],
+            parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
+                var result;
+                // console.log(this);
+                // console.log(JSON.stringify(res));
+                if (this.page.curr) {
+                    result = res.data.slice(this.limit * (this.page.curr - 1), this.limit * this.page.curr);
+                } else {
+                    result = res.data.slice(0, this.limit);
+                }
+                return {
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": result //解析数据列表
+                };
+            }
+            // , toolbar: '#equipment_table_toolbar' //开启头部工具栏，并为其绑定左侧模板
+            // , defaultToolbar: ['exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+            //     title: '提示'
+            //     , layEvent: 'LAYTABLE_TIPS'
+            //     , icon: 'layui-icon-tips'
+            // }]
+        });
+
+
+        table.on('tool(equipment_table)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if (layEvent === 'detail') { //查看
+                //do somehing
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('确认删除' + data.name + '吗?', function (index) {
+                    var uuid = 'equipment_uuid=' + data.uuid;
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "get",
+                        url: "/delEquipment",
+                        data: uuid,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code == 0) {
+                                layer.alert("删除成功", {
+                                        icon: 6
+                                    },
+                                    function () {
+                                        //关闭当前frame
+                                        xadmin.close();
+
+                                        // 可以对父窗口进行刷新
+                                        xadmin.father_reload();
+                                    });
+                            } else {
+                                layer.alert("删除失败" + data.msg, function () {
+                                    //关闭当前frame
+                                    xadmin.close();
+
+                                    // 可以对父窗口进行刷新
+                                    xadmin.father_reload();
+                                });
+                            }
+                        }
+                    });
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                });
+            } else if (layEvent === 'edit') { //编辑
+                //do something
+                console.log(data);
+                var url = 'uuid=' + data.uuid + '&name=' + encodeURI(data.name) + '&process=' + data.process + '&status=' + data.status;
+                xadmin.open('修改设备', './equipment-edit.html?' + url, 600, 500);
+
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+
+        // 执行搜索，表格重载
+        $('#equipment_name_search').on('click', function () {
+            // 搜索条件
+            var equipment_name = $('#equipment_name').val();
+            console.log("equipment_name");
+            console.log(equipment_name);
+            table.reload('equipment_table', {
+                method: 'post'
+                , url: '/equipmentSearch'
+                , where: {
+                    'equipment_name': equipment_name
+                }
+                , page: {
+                    curr: 1
+                }
+            });
+        });
+
+    });
+
+
+</script>
+</html>

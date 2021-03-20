@@ -1,0 +1,14 @@
+server:
+  port: 10086
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;database=POSHINGSWR
+    username: sa
+    password: 19970603
+mybatis-plus:
+  mapper-locations: classpath:com/poshing/swr/mapper/**.xml
+  type-aliases-package: com.poshing.swr.entity
+  configuration:
+    jdbc-type-for-null: VARCHAR
+  #配置JdbcTypeForNull, oracle数据库必须配置

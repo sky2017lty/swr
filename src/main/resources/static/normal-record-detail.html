@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="./css/normal.css">
+    <script src="./js/jquery.min.js" charset="utf-8"></script>
+    <script src="./js/utils.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">记录信息</div>
+                <div class="layui-card-body ">
+                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                        <li class="layui-col-md3 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>日期</h3>
+                                <p>
+                                    <cite id="date"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md3 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>班次</h3>
+                                <p>
+                                    <cite id="workingShift"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md3 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>交班人</h3>
+                                <p>
+                                    <cite id="endShift"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md3 layui-col-xs6 ">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>接班人</h3>
+                                <p>
+                                    <cite id="startShift"></cite></p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">长期注意事项</div>
+                <div class="layui-card-body ">
+                    <div class="layui-card-header" id="importantMatter_long">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">文件更新</div>
+                <div class="layui-card-body ">
+                    <div class="layui-card-header" id="fileUpdate">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">注意事项</div>
+                <div class="layui-card-body ">
+                    <div class="layui-card-header" id="importantMatter">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">不合格情况</div>
+                <div class="layui-card-body ">
+                    <div class="layui-card-header" id="unQualified">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">当班注意事项</div>
+                <div class="layui-card-body ">
+                    <div class="layui-card-header" id="importantMatter_Now">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">设备情况</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table" id="equipment_record_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">工具情况</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table" id="tool_record_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        var uuid = getUrlVariable("uuid");
+        var process = getUrlVariable("process");
+        getImportantMatter_long(process);
+        $.ajax({
+            url: "/getRecord",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            data: {
+                "uuid": uuid
+            },    //参数值
+            type: "GET",   //请求方式
+            success: function (req) {
+                //请求成功时处理
+                $("#date").text(req.workingshiftdate);
+                if (req.workingshift == 0) {
+                    $("#workingShift").text("日班");
+                } else if (req.workingshift == 1) {
+                    $("#workingShift").text("夜班");
+                }
+                $("#endShift").text(req.endshift);
+                $("#startShift").text(req.startshift);
+                $("#fileUpdate").text(req.fileupdate);
+                $("#unQualified").text(req.unqualified);
+                $("#importantMatter").text(req.importantmatter);
+                $("#importantMatter_Now").text(req.importantmatterNow);
+            }
+        });
+    };
+
+    layui.use(['form', 'layer', 'jquery', 'table', 'laydate'], function () {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            table = layui.table;
+
+        var process = getUrlVariable("process");
+        var date = getUrlVariable("date");
+        var workingShift = getUrlVariable("workingShift");
+        var url = "?process=" + process +
+            "&workShiftDate=" + date +
+            "&workingShift=" + workingShift;
+        var equipmentUrl = "/getEquipmentRecord" + url;
+        var toolUrl = "/getToolRecord" + url;
+
+        table.render({
+            elem: '#equipment_record_table'
+            , url: equipmentUrl //数据接口
+            , cols: [[ //表头
+                {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
+                {field: 'name', title: '设备情况', sort: true},
+                {field: 'faultstarttime', title: '当班故障起始时间'},
+                {field: 'faultendtime', title: '当班故障结束时间'},
+                {field: 'expression', title: '现象'},
+                {field: 'step', title: '措施'},
+                {field: 'maintainer', title: '维修人'}
+            ]]
+        });
+
+
+        table.render({
+            elem: '#tool_record_table'
+            , url: toolUrl //数据接口
+            , cols: [[ //表头
+                {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
+                {
+                    field: 'name', title: '工具情况', templet: function (d) {
+                        return d.name + " " + d.detail;
+                    }
+                },
+                {field: 'number', title: '数量'},
+                {field: 'details', title: '工具情况'}
+            ]]
+        });
+    });
+</script>
+
+</body>
+
+</html>

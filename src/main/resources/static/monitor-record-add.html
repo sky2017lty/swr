@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="./css/normal.css">
+    <script src="./js/jquery.min.js" charset="utf-8"></script>
+    <script src="./js/utils.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form id="normal_record_add_form" class="layui-form layui-form-pane">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">长期注意事项</label>
+                <div class="layui-input-block">
+                    <textarea id="importantMatter_long" name="importantMatter_long" placeholder="请输入内容"
+                              class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <table class="layui-table" lay-skin="nob">
+                    <tr>
+                        <td>日期</td>
+                        <td><input type="text" class="layui-input workShiftDate" name="workShiftDate"
+                                   id="workShiftDate">
+                            <input type="hidden" name="process" id="process" value="">
+                        </td>
+                        <td>班次</td>
+                        <td>
+                            <select class="workingShift" id="workingShift" name="workingShift"
+                                    lay-verify="required">
+                                <option value="0">日班</option>
+                                <option value="1">夜班</option>
+                            </select>
+                        </td>
+                        <td>交班人</td>
+                        <td><input type="text" name="endShift" required lay-verify="required"
+                                   autocomplete="off" class="layui-input"></td>
+                        <td>接班人</td>
+                        <td><input type="text" name="startShift" required lay-verify="required"
+                                   autocomplete="off" class="layui-input"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">文件更新</label>
+                <div class="layui-input-block">
+                    <textarea name="fileupdate" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">注意事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatter" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">目检重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterMj" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">厚度重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterHd" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">电阻率重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterDzl" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">平整度重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterPzd" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">颗粒重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterKl" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">腐蚀重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterFs" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">SRP、SPV重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterSrpspv" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">报警片重点事项</label>
+                <div class="layui-input-block">
+                    <textarea name="importantmatterBj" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">安全隐患</label>
+                <div class="layui-input-block">
+                    <textarea name="safe" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item" id="equipment_table_div">
+<!--                                <table id="pause_table" class="layui-table layui-form" lay-filter="pause_table"></table>-->
+                <table class="layui-table" lay-data="{height: 700,page:true, id:'pause_table', toolbar: '#toolbarDemo'}"
+                       lay-filter="pause_table">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field: 'uuid', width: 90, title: 'UUID', hide: true}"></th>
+                        <th lay-data="{field: 'pauselevel', width: 90, title: '叫停等级', templet: '#switchTpl'}"></th>
+                        <th lay-data="{field: 'detail', title: '叫停描述', edit: 'text'}"></th>
+                        <th lay-data="{title: '操作', width: 100, align: 'center', toolbar: '#equipment_table_tool'}"></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" lay-filter="add" lay-submit="" onclick="return false;">增加</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        dateInput("workShiftDate");
+        getImportantMatter_long("Monitor");
+    };
+</script>
+<script type="text/html" id="equipment_table_tool">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="switchTpl">
+    <!--    <select name="status" lay-verify="required">-->
+    <!--        <option value="0">一般</option>-->
+    <!--        <option value="1">最高级</option>-->
+    <!--    </select>-->
+    <input type="checkbox" checked name="pauselevel" value="{{d.uuid}}" lay-skin="switch" lay-text="一般|最高级"
+           lay-filter="pauselevel">
+
+</script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <!--        <button type="button" class="layui-btn layui-btn-sm" lay-event="addPause">添加叫停</button>-->
+        <button type="button" class="layui-btn layui-btn-sm" id="addPause"
+                lay-filter="addPause" lay-event="addPause">添加叫停
+        </button>
+    </div>
+</script>
+<script>
+    layui.use(['form', 'layer', 'jquery', 'table', 'laydate'], function () {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            table = layui.table;
+
+        laydate.render({
+            elem: '#workShiftDate' //指定元素
+        });
+
+        // table.render({
+        //     elem: '#pause_table'
+        //     , url: '/getNullData' //数据接口
+        //     , height: 700
+        //     , page: true
+        //     , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+        //     , cols: [[ //表头
+        //         {field: 'uuid', width: 90, title: 'UUID', hide: true},
+        //         {field: 'pauselevel', width: 90, title: '叫停等级', templet: "#switchTpl"},
+        //         {field: 'detail', title: '叫停描述', edit: 'text'},
+        //         {title: '操作', width: 100, align: 'center', toolbar: '#equipment_table_tool'}
+        //     ]]
+        // });
+
+        //头工具栏事件
+        table.on('toolbar(pause_table)', function (obj) {
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch (obj.event) {
+                case 'addPause':
+                    var date = $("#workShiftDate").val();
+                    var workingShift = $("#workingShift").val();
+                    $.ajax({
+                        type: "get",
+                        url: "/insertPauseRecord",
+                        data: {
+                            date: date,
+                            workingShift: workingShift
+                        },
+                        dataType: "json",
+                        success: function (req) {
+                            var array = table.cache["pause_table"];
+                            var data = {"uuid": req.data.uuid, "pauselevel": 0, "detail": ""};
+                            array.push(data);
+                            table.reload('pause_table', {
+                                data: array
+                            });
+                            renderForm();
+                        }
+                    });
+                    // var array = table.cache["pause_table"];
+                    // var data = {"uuid": "", "pauselevel": 0, "detail": ""};
+                    // array.push(data);
+                    // table.reload('pause_table', {
+                    //     data: array
+                    // });
+                    // renderForm();
+                    break;
+                //自定义头工具栏右侧图标 - 提示
+                case 'LAYTABLE_TIPS':
+                    // layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        table.on('tool(pause_table)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+            if (layEvent === 'detail') { //查看
+                //do somehing
+            } else if (layEvent === 'del') { //删除
+                layer.confirm('确认删除吗?', function (index) {
+                    var uuid = 'uuid=' + data.uuid;
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "get",
+                        url: "/deletePauseRecord",
+                        data: uuid,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code == 0) {
+                                layer.alert("删除成功", {
+                                        icon: 6
+                                    },
+                                    function () {
+                                        //关闭当前frame
+                                        layer.close(layer.index);
+
+                                        // 可以对父窗口进行刷新
+                                        // xadmin.father_reload();
+                                    });
+                            } else {
+                                layer.alert("删除失败" + data.msg, function () {
+                                    //关闭当前frame
+                                    layer.close(layer.index);
+
+                                    // 可以对父窗口进行刷新
+                                    // xadmin.father_reload();
+                                });
+                            }
+                        }
+                    });
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(layer.index);
+                });
+            } else if (layEvent === 'edit') { //编辑
+
+            } else if (layEvent === 'LAYTABLE_TIPS') {
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(pauselevel)', function (data) {
+            var workShiftDate = $("#workShiftDate").val();
+            var workingShift = $("#workingShift").val();
+            var status = 0;
+            if (!this.checked) { //最高级
+                status = 1;
+            }
+            $.ajax({
+                url: "/updatePauseRecord",    //请求的url地址
+                dataType: "json",   //返回格式为json
+                data: {
+                    "uuid": data.value,
+                    "status": status,
+                    "workShiftDate": workShiftDate,
+                    "workingShift": workingShift
+                },    //参数值
+                type: "GET",   //请求方式
+                success: function (req) {
+                    //请求成功时处理
+                    var pauselevel = req.data.pauselevel == 0 ? "一般" : "最高级";
+                    layer.tips("当前叫停等级为: " + pauselevel, data.othis);
+                }
+            });
+        });
+
+        //监听单元格编辑
+        table.on('edit(pause_table)',
+            function (obj) {
+                var workShiftDate = $("#workShiftDate").val();
+                var workingShift = $("#workingShift").val();
+                var value = obj.value //得到修改后的值
+                    , data = obj.data //得到所在行所有键值
+                    , field = obj.field; //得到字段
+                data.workShiftDate = workShiftDate;
+                data.workingShift = workingShift;
+                $.ajax({
+                    url: "/updatePauseRecord",    //请求的url地址
+                    dataType: "json",   //返回格式为json
+                    data: data,    //参数值
+                    type: "GET",   //请求方式
+                    success: function (req) {
+                        //请求成功时处理
+                        layer.msg(field + ' 字段更改为：' + value);
+                    }
+                });
+                // console.log(obj);
+
+            });
+
+        //监听提交
+        form.on('submit(add)',
+            function (data) {
+                layer.confirm('确认提交吗?提交后将不能进行修改!', {icon: 3, title: '提示'}, function (index) {
+                    //do something
+                    submitRecord();
+                    layer.close(index);
+                });
+
+            });
+
+    });
+
+
+    function submitRecord() {
+        var d = $("#normal_record_add_form").serialize();
+        var importantMatterLong = $("#importantMatter_long").val();
+        d = d + "&importantMatter_Long=" + importantMatterLong;
+        // 发异步，把数据提交给java
+        $.ajax({
+            url: "/updateMonitorRecord",    //请求的url地址
+            dataType: "json",   //返回格式为json
+            data: d,    //参数值
+            type: "GET",   //请求方式
+            success: function (req) {
+                //请求成功时处理
+                if (req.code == 0) {
+                    layer.alert("增加成功", {
+                            icon: 6
+                        },
+                        function () {
+                            //关闭当前frame
+                            xadmin.close();
+                            // 可以对父窗口进行刷新
+                            xadmin.father_reload();
+                        });
+                } else {
+                    layer.alert("增加失败" + data.msg, function () {
+                        //关闭当前frame
+                        xadmin.close();
+                        // 可以对父窗口进行刷新
+                        xadmin.father_reload();
+                    });
+                }
+            }
+        });
+    }
+</script>
+</body>
+
+</html>
