@@ -1,7 +1,7 @@
 # ShiftWorkRecord_班次交接系统
 
 #### 介绍
-班次交接系统_Sqlserver
+班次交接系统 为公司开发的上下班班次之间的交接系统.
 
 #### 软件架构
 SpringBoot + mybatisPlus 
@@ -16,3 +16,7 @@ SpringBoot + mybatisPlus
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
+
+#### 更新记录
+
+2021.3.24 修复了普通记录重复添加时卡死的错误
