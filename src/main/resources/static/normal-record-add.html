@@ -78,7 +78,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">当班注意事项</label>
                 <div class="layui-input-block">
-                    <textarea name="importantMatter_Now" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea id="importantMatter_Now" name="importantMatter_Now" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item" id="equipment_table_div">
@@ -100,6 +100,7 @@
         checkToolExist(process);
         checkEquipmentExist(process);
         getImportantMatter_long(process);
+        getImportantMatter_now(process);
         $("#process").attr('value', process);
     };
 </script>
