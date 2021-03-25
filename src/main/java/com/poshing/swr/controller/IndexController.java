@@ -41,8 +41,26 @@ public class IndexController {
 
     @GetMapping("/getImportantMatterLong")
     @ResponseBody
-    public String addTool(HttpServletRequest request) {
+    public String getImportantMatterLong(HttpServletRequest request) {
         return indexService.getImportantMatterLong(request);
+    }
+
+    @GetMapping("/getImportantMatterNow")
+    @ResponseBody
+    public String getImportantMatterNow(HttpServletRequest request) {
+        return indexService.getImportantMatterNow(request);
+    }
+
+    @GetMapping("/editNowRecord")
+    @ResponseBody
+    public String editNowRecord(HttpServletRequest request) {
+        return indexService.editNowRecord(request);
+    }
+
+    @GetMapping("/getAllIM")
+    @ResponseBody
+    public String getAllIM(HttpServletRequest request) {
+        return indexService.getAllIM(request);
     }
 
     @GetMapping("/getRecord")

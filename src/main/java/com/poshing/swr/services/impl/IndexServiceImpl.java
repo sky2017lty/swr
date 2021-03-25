@@ -54,6 +54,9 @@ public class IndexServiceImpl implements IndexService {
     @Resource
     private MonitorRecordDao monitorRecordDao;
 
+    @Resource
+    private NowRecordDao nowRecordDao;
+
     @Override
     public String getAllProcess() {
         List<Process> processList = processDao.selectList(new QueryWrapper<Process>());
@@ -179,5 +182,48 @@ public class IndexServiceImpl implements IndexService {
             recordMap.put("Monitor", monitorRecord);
         }
         return JSON.toJSONString(recordMap);
+    }
+
+    @Override
+    public String getImportantMatterNow(HttpServletRequest request) {
+        String process = request.getParameter("process");
+        //查找当前
+        NowRecord one = nowRecordDao.selectOne(new QueryWrapper<NowRecord>()
+                .eq("process", process));
+        if (one == null) {
+            one = new NowRecord();
+            one.setUuid(UuidUtil.getUuid());
+            one.setProcess(process);
+            int flag = nowRecordDao.insert(one);
+        }
+        return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
+    }
+
+    @Override
+    public String editNowRecord(HttpServletRequest request) {
+        String uuid = request.getParameter("nowRecord_uuid");
+        String process = request.getParameter("nowRecord_process");
+        String details = request.getParameter("nowRecord_name");
+        NowRecord one = nowRecordDao.selectOne(new QueryWrapper<NowRecord>().eq("uuid", uuid));
+        if (one == null) {
+            one = new NowRecord();
+            one.setUuid(UuidUtil.getUuid());
+            one.setProcess(process);
+            one.setDetails(details);
+            int flag = nowRecordDao.insert(one);
+        }
+        //添加内容
+        one.setDetails(details);
+        int flag = nowRecordDao.updateById(one);
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }    }
+
+    @Override
+    public String getAllIM(HttpServletRequest request) {
+        List<NowRecord> selectList = nowRecordDao.selectList(new QueryWrapper<NowRecord>());
+        return JsonUtils.getInstance().formatLayerJson(0, "success", selectList.size(), JSON.toJSONString(selectList));
     }
 }

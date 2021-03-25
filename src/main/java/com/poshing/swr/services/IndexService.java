@@ -29,5 +29,11 @@ public interface IndexService {
 
     String checkRecord(HttpServletRequest request);
 
+    String getImportantMatterNow(HttpServletRequest request);
+
+    String editNowRecord(HttpServletRequest request);
+
+    String getAllIM(HttpServletRequest request);
+
 //    String addProcess();
 }
