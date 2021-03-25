@@ -128,6 +128,21 @@ function getImportantMatter_long(process) {
     });
 }
 
+function getImportantMatter_now(process) {
+    $.ajax({
+        url: "/getImportantMatterNow",    //请求的url地址
+        dataType: "json",   //返回格式为json
+        data: {"process": process},    //参数值
+        type: "GET",   //请求方式
+        success: function (req) {
+            //请求成功时处理
+            // console.log(req.data.details);
+            $("#importantMatter_Now").text(req.data.details);
+            $("#importantMatter_now_uuid").val(req.data.uuid);
+        }
+    });
+}
+
 /**
  * 设置select控件选中
  * @param selectId select的id值
@@ -142,5 +157,48 @@ function set_select_checked(selectId, checkValue) {
             select.options[i].selected = true;
             break;
         }
+    }
+}
+
+/**
+ * 工序中英文互转
+ * @param process
+ * @returns {string}
+ */
+function processE(process) {
+    switch (process) {
+        case "目检":
+            return "VisualInspection";
+        case "厚度":
+            return "Thickness";
+        case "电阻率":
+            return "Resistivity";
+        case "颗粒":
+            return "Particles";
+        case "成品上架":
+            return "PutOnShelf";
+        case "终检":
+            return "FinalInspection";
+        case "班长":
+            return "Monitor";
+    }
+}
+
+function processC(process) {
+    switch (process) {
+        case "VisualInspection":
+            return "目检";
+        case "Thickness":
+            return "厚度";
+        case "Resistivity":
+            return "电阻率";
+        case "Particles":
+            return "颗粒";
+        case "PutOnShelf":
+            return "成品上架";
+        case "FinalInspection":
+            return "终检";
+        case "Monitor":
+            return "班长";
     }
 }
