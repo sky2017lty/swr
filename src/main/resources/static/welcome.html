@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="refresh" content="900">
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
     <script src="./js/jquery.min.js" charset="utf-8"></script>
@@ -92,61 +93,52 @@
                 </div>
             </div>
         </div>
-        <!--        <div class="layui-col-md12">-->
-        <!--            <div class="layui-card">-->
-        <!--                <div class="layui-card-header">当前班次注意事项</div>-->
-        <!--                <div class="layui-card-body ">-->
-        <!--                    <table class="layui-table">-->
-        <!--                        <tbody>-->
-        <!--                        <tr>-->
-        <!--                            <th>xxx版本</th>-->
-        <!--                            <td>1.0.180420</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>服务器地址</th>-->
-        <!--                            <td>x.xuebingsi.com</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>操作系统</th>-->
-        <!--                            <td>WINNT</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>运行环境</th>-->
-        <!--                            <td>Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>PHP版本</th>-->
-        <!--                            <td>5.6.27</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>PHP运行方式</th>-->
-        <!--                            <td>cgi-fcgi</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>MYSQL版本</th>-->
-        <!--                            <td>5.5.53</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>ThinkPHP</th>-->
-        <!--                            <td>5.0.18</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>上传附件限制</th>-->
-        <!--                            <td>2M</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>执行时间限制</th>-->
-        <!--                            <td>30s</td>-->
-        <!--                        </tr>-->
-        <!--                        <tr>-->
-        <!--                            <th>剩余空间</th>-->
-        <!--                            <td>86015.2M</td>-->
-        <!--                        </tr>-->
-        <!--                        </tbody>-->
-        <!--                    </table>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">当前班次注意事项</div>
+                        <div class="layui-card-body ">
+                            <table class="layui-table">
+                                <tbody>
+                                <tr>
+                                    <th width="20px;">目检</th>
+                                    <td id="ImportantMatter_now_VisualInspection"></td>
+                                    <td width="20px;"><button class="layui-btn" onclick="changeIM('VisualInspection')">修改</button></td>
+                                </tr>
+                                <tr>
+                                    <th>厚度</th>
+                                    <td id="ImportantMatter_now_Thickness"></td>
+                                    <td><button class="layui-btn" onclick="changeIM('Thickness')">修改</button></td>
+                                </tr>
+                                <tr>
+                                    <th>电阻率</th>
+                                    <td id="ImportantMatter_now_Resistivity"></td>
+                                    <td><button class="layui-btn" onclick="changeIM('Resistivity')">修改</button></td>
+                                </tr>
+                                <tr>
+                                    <th>颗粒</th>
+                                    <td id="ImportantMatter_now_Particles"></td>
+                                    <td><button class="layui-btn" onclick="changeIM('Particles')">修改</button></td>
+                                </tr>
+                                <tr>
+                                    <th>成品上架</th>
+                                    <td id="ImportantMatter_now_PutOnShelf"></td>
+                                    <td><button class="layui-btn" onclick="changeIM('PutOnShelf')">修改</button></td>
+                                </tr>
+                                <tr>
+                                    <th>终检</th>
+                                    <td id="ImportantMatter_now_FinalInspection"></td>
+                                    <td><button class="layui-btn" onclick="changeIM('FinalInspection')">修改</button></td>
+                                </tr>
+                                <tr>
+                                    <th>班长</th>
+                                    <td id="ImportantMatter_now_Monitor"></td>
+                                    <td><button class="layui-btn" onclick="changeIM('Monitor')">修改</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">开发团队</div>
@@ -160,6 +152,10 @@
                         <tr>
                             <th>联系方式</th>
                             <td>work_litianyi@163.com</td>
+                        </tr>
+                        <tr>
+                            <th>版本</th>
+                            <td id="bingo" onclick="bingo();">0.9.5</td>
                         </tr>
                         </tbody>
                     </table>
@@ -181,6 +177,7 @@
         getWorkingShift();
         $("#lastWorkShift").text(getLastWorkShift());
         checkRecord();
+        getAllIM_now();
     };
 
     function getWorkingShift() {
@@ -211,6 +208,29 @@
         return str;
     }
 
+    function changeIM(process) {
+        xadmin.open(processC(process) + '注意事项', './nowRecord-edit.html?process=' + process, 600, 700, false);
+    }
+    
+    function getAllIM_now() {
+        $.ajax({
+            type: "get",
+            url: "/getAllIM",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                var obj = data.data;
+                for (let i = 0; i < obj.length; i++) {
+                    $("#ImportantMatter_now_" + obj[i].process).text(obj[i].details);
+                }
+            }
+        });
+    }
+
+    function bingo() {
+        xadmin.open('开发记录', './developer.html', 600, 700, false);
+    }
+
     function checkRecord() {
         var myTime = new Date().getHours();
         var date, workingshift;
@@ -233,7 +253,7 @@
             },
             dataType: "json",
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 for (let key in data) {
                     $("#" + key).text("完成");
                     switch (key) {
