@@ -170,7 +170,7 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public String getAllMonitorRecord(HttpServletRequest request) {
-        List<MonitorRecord> selectList = monitorRecordDao.selectList(new QueryWrapper<MonitorRecord>());
+        List<MonitorRecord> selectList = monitorRecordDao.selectList(new QueryWrapper<MonitorRecord>().orderByDesc("workingshiftdate"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", selectList.size(), JSON.toJSONString(selectList));
     }
 

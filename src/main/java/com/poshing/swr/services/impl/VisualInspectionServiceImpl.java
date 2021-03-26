@@ -31,7 +31,7 @@ public class VisualInspectionServiceImpl implements VisualInspectionService {
     @Override
     public String getAllRecord(HttpServletRequest request) {
         String process = request.getParameter("process");
-        List<Record> recordList = recordDao.selectList(new QueryWrapper<Record>().eq("process", process));
+        List<Record> recordList = recordDao.selectList(new QueryWrapper<Record>().eq("process", process).orderByDesc("workingshiftdate"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", recordList.size(), JSON.toJSONString(recordList));
     }
 
@@ -43,7 +43,8 @@ public class VisualInspectionServiceImpl implements VisualInspectionService {
         List<Record> recordList = recordDao.selectList(new QueryWrapper<Record>()
                 .eq("process", process)
                 .ge("workingshiftdate", start)
-                .le("workingshiftdate", end));
+                .le("workingshiftdate", end)
+                .orderByDesc("workingshiftdate"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", recordList.size(), JSON.toJSONString(recordList));
     }
 
