@@ -1,6 +1,8 @@
 package com.poshing.swr.services.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.poshing.swr.dao.LongRecordDao;
 import com.poshing.swr.dao.MonitorRecordDao;
@@ -9,6 +11,7 @@ import com.poshing.swr.entity.LongRecord;
 import com.poshing.swr.entity.MonitorRecord;
 import com.poshing.swr.entity.PauseRecord;
 import com.poshing.swr.services.MonitorService;
+import com.poshing.swr.utils.DateUtils;
 import com.poshing.swr.utils.JsonUtils;
 import com.poshing.swr.utils.UuidUtil;
 import org.springframework.stereotype.Service;
@@ -110,7 +113,29 @@ public class MonitorServiceImpl implements MonitorService {
         LongRecord longRecord = longRecordDao.selectOne(new QueryWrapper<LongRecord>()
                 .eq("process", "Monitor"));
         if (one != null) {
-            return JsonUtils.getInstance().formatLayerJson(200, "记录已存在", null);
+            one.setWorkingshiftdate(date);
+            one.setWorkingshift(workingshift);
+            one.setEndshift(endshift);
+            one.setStartshift(startshift);
+            one.setFileupdate(fileupdate);
+            one.setImportantmatter(importantmatter);
+            one.setImportantmatterMj(importantmatterMj);
+            one.setImportantmatterHd(importantmatterHd);
+            one.setImportantmatterDzl(importantmatterDzl);
+            one.setImportantmatterPzd(importantmatterPzd);
+            one.setImportantmatterKl(importantmatterKl);
+            one.setImportantmatterFs(importantmatterFs);
+            one.setImportantmatterSrpspv(importantmatterSrpspv);
+            one.setImportantmatterBj(importantmatterBj);
+            one.setSafe(safe);
+            longRecord.setDetails(importantMatterLong);
+            int flag = monitorRecordDao.updateById(one);
+            int flag1 = longRecordDao.updateById(longRecord);
+            if (1 == flag && 1 == flag1) {
+                return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+            } else {
+                return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+            }
         }
         if (longRecord == null) {
             longRecord = new LongRecord();
@@ -192,5 +217,34 @@ public class MonitorServiceImpl implements MonitorService {
                 .ge("workingshiftdate", start)
                 .le("workingshiftdate", end));
         return JsonUtils.getInstance().formatLayerJson(0, "success", recordList.size(), JSON.toJSONString(recordList));
+    }
+
+    @Override
+    public String getMonitorRecordNow(HttpServletRequest request) {
+        String date = request.getParameter("workShiftDate");
+        String workingshift = request.getParameter("workingShift");
+        MonitorRecord one = monitorRecordDao.selectOne(new QueryWrapper<MonitorRecord>()
+                .eq("workingshiftdate", date)
+                .eq("workingshift", workingshift));
+        if (one == null) {
+            return JsonUtils.getInstance().formatLayerJson(200, "记录不存在", null);
+        }
+        return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
+    }
+
+    @Override
+    public String getPauseRecordNow(HttpServletRequest request) {
+        List<PauseRecord> selectList = pauseRecordDao.selectList(new QueryWrapper<PauseRecord>()
+                .eq("workingshiftdate", DateUtils.getInstance().getDate())
+                .eq("workingshift", DateUtils.getInstance().getWorkingShift()));
+        JSONArray jsonArray = new JSONArray();
+        for (PauseRecord pauseRecord : selectList) {
+            JSONObject json = new JSONObject();
+            json.put("uuid", pauseRecord.getUuid());
+            json.put("pauselevel", pauseRecord.getPauselevel());
+            json.put("detail", pauseRecord.getDetail());
+            jsonArray.add(json);
+        }
+        return JsonUtils.getInstance().formatLayerJson(0, "success", jsonArray);
     }
 }

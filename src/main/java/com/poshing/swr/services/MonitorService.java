@@ -25,4 +25,8 @@ public interface MonitorService {
     String getPauseRecord(HttpServletRequest request);
 
     String searchMonitorRecordByDate(HttpServletRequest request);
+
+    String getMonitorRecordNow(HttpServletRequest request);
+
+    String getPauseRecordNow(HttpServletRequest request);
 }

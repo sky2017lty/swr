@@ -115,7 +115,7 @@ public class IndexServiceImpl implements IndexService {
                 .eq("process", process)
                 .eq("workingshiftdate", workShiftDate)
                 .eq("workingShift", workingShift)
-                .eq("status", "0"));
+                .eq("status", "1"));
         JSONArray json = new JSONArray();
         for (EquipmentRecord equipmentRecord : equipmentRecordList) {
             Equipment one = equipmentDao.selectOne(new QueryWrapper<Equipment>()

@@ -67,6 +67,25 @@ function getLastDate() {
     return nowDate;
 }
 
+function getWorkingShiftNow() {
+    var myDate = new Date();
+    var myTime = myDate.getHours();
+    if (myTime <= 8 || myTime >= 19) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+function getLastWorkingShift() {
+    var d = getWorkingShiftNow();
+    if (d === 1) {
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 function dateInput(id) {
     var myDate = new Date();
     var myTime = myDate.getHours();

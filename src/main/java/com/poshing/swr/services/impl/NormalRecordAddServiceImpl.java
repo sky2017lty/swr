@@ -50,6 +50,8 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
                 .eq("workingShift", workingShift)
                 .eq("process", process));
         if (one != null) {
+            one.setStatus(status);
+            int flag = equipmentRecordDao.updateById(one);
             return JsonUtils.getInstance().formatLayerJson(300, "记录已存在", null);
         }
         EquipmentRecord equipmentRecord = new EquipmentRecord();
@@ -121,7 +123,23 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         LongRecord longRecord = longRecordDao.selectOne(new QueryWrapper<LongRecord>()
                 .eq("process", process));
         if (one != null) {
-            return JsonUtils.getInstance().formatLayerJson(200, "记录已存在", null);
+            one.setWorkingshiftdate(date);
+            one.setWorkingshift(workingShift);
+            one.setProcess(process);
+            one.setEndshift(endShift);
+            one.setStartshift(startShift);
+            one.setFileupdate(fileUpdate);
+            one.setImportantmatter(importantMatter);
+            one.setImportantmatterNow(importantMatterNow);
+            one.setUnqualified(unQualified);
+            longRecord.setDetails(importantMatterLong);
+            int flag = recordDao.updateById(one);
+            int flag1 = longRecordDao.updateById(longRecord);
+            if (1 == flag && 1 == flag1) {
+                return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+            } else {
+                return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+            }
         }
         if (longRecord == null) {
             longRecord = new LongRecord();
@@ -177,12 +195,39 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
                 return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
             }
         }
+        if (details.isEmpty()) {
+            toolRecordDao.deleteById(one);
+        }
         one.setWorkingshiftdate(workShiftDate);
         one.setToolUuid(toolUuid);
         one.setProcess(process);
         one.setWorkingshift(workingShift);
         one.setDetails(details);
         int flag = toolRecordDao.updateById(one);
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String deleteEquipmentRecord(HttpServletRequest request) {
+        String equipmentUuid = request.getParameter("uuid");
+        String status = request.getParameter("status");
+        String workShiftDate = request.getParameter("workShiftDate");
+        String workingShift = request.getParameter("workingShift");
+        String process = request.getParameter("process");
+        String faultStartTime = request.getParameter("faultStartTime");
+        String faultEndTime = request.getParameter("faultEndTime");
+        String expression = request.getParameter("expression");
+        String step = request.getParameter("step");
+        String maintainer = request.getParameter("maintainer");
+        int flag = equipmentRecordDao.delete(new QueryWrapper<EquipmentRecord>()
+                .eq("equipment_uuid", equipmentUuid)
+                .eq("workingshiftdate", workShiftDate)
+                .eq("workingShift", workingShift)
+                .eq("process", process));
         if (1 == flag) {
             return JsonUtils.getInstance().formatLayerJson(0, "success", null);
         } else {

@@ -42,4 +42,36 @@ public class VisualInspectionController {
         return visualInspectionService.searchByDate(request);
     }
 
+    /**
+     * 查找当班记录
+     * @param request
+     * @return
+     */
+    @PostMapping("/getNormalRecordNow")
+    @ResponseBody
+    public String getRecordNow(HttpServletRequest request) {
+        return visualInspectionService.getRecordNow(request);
+    }
+
+    /**
+     * 查找当班设备记录
+     * @param request
+     * @return
+     */
+    @GetMapping("/getEquipmentRecordNow")
+    @ResponseBody
+    public String getEquipmentRecordNow(HttpServletRequest request) {
+        return visualInspectionService.getEquipmentRecordNow(request);
+    }
+
+    /**
+     * 查找当班工具记录
+     * @param request
+     * @return
+     */
+    @GetMapping("/getToolRecordNow")
+    @ResponseBody
+    public String getToolRecordNow(HttpServletRequest request) {
+        return visualInspectionService.getToolRecordNow(request);
+    }
 }

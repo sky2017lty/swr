@@ -26,6 +26,18 @@ public class MonitorController {
         return monitorService.getPauseRecord(request);
     }
 
+    @GetMapping("/getPauseRecordNow")
+    @ResponseBody
+    public String getPauseRecordNow(HttpServletRequest request) {
+        return monitorService.getPauseRecordNow(request);
+    }
+
+    @GetMapping("/getMonitorRecordNow")
+    @ResponseBody
+    public String getMonitorRecordNow(HttpServletRequest request) {
+        return monitorService.getMonitorRecordNow(request);
+    }
+
     @GetMapping("/insertPauseRecord")
     @ResponseBody
     public String insertPauseRecord(HttpServletRequest request) {

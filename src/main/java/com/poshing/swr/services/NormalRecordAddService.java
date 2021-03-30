@@ -15,4 +15,6 @@ public interface NormalRecordAddService {
     String updateRecord(HttpServletRequest request);
 
     String updateToolRecord(HttpServletRequest request);
+
+    String deleteEquipmentRecord(HttpServletRequest request);
 }

@@ -12,4 +12,10 @@ public interface VisualInspectionService {
     String getAllRecord(HttpServletRequest request);
 
     String searchByDate(HttpServletRequest request);
+
+    String getRecordNow(HttpServletRequest request);
+
+    String getEquipmentRecordNow(HttpServletRequest request);
+
+    String getToolRecordNow(HttpServletRequest request);
 }

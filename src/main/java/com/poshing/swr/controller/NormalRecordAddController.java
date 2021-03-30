@@ -36,6 +36,17 @@ public class NormalRecordAddController {
      * @param request
      * @return
      */
+    @GetMapping("/deleteEquipmentRecord")
+    @ResponseBody
+    public String deleteEquipmentRecord(HttpServletRequest request) {
+        return normalRecordAddService.deleteEquipmentRecord(request);
+    }
+
+    /**
+     * 修改设备记录
+     * @param request
+     * @return
+     */
     @GetMapping("/updateEquipmentRecord")
     @ResponseBody
     public String updateEquipmentRecord(HttpServletRequest request) {
