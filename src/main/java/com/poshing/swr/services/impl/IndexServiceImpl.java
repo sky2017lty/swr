@@ -153,18 +153,16 @@ public class IndexServiceImpl implements IndexService {
     public String deleteRecord(HttpServletRequest request) {
         String uuid = request.getParameter("uuid");
         String process = request.getParameter("process");
-        String date = request.getParameter("date");
+        String date = request.getParameter("workingshiftdate");
         String workingshift = request.getParameter("workingshift");
+        Map<String, Object> map = new HashMap<>(0);
+        map.put("process", process);
+        map.put("workingshiftdate", date);
+        map.put("workingshift", workingshift);
+        int equipmentRecordFlag = equipmentRecordDao.deleteByMap(map);
+        int toolRecordFlag = toolRecordDao.deleteByMap(map);
         int recordFlag = recordDao.delete(new QueryWrapper<Record>()
                 .eq("uuid", uuid));
-        int equipmentRecordFlag = equipmentRecordDao.delete(new QueryWrapper<EquipmentRecord>()
-                .eq("process", process)
-                .eq("workingshiftdate", date)
-                .eq("workingshift", workingshift));
-        int toolRecordFlag = toolRecordDao.delete(new QueryWrapper<ToolRecord>()
-                .eq("process", process)
-                .eq("workingshiftdate", date)
-                .eq("workingshift", workingshift));
         return JsonUtils.getInstance().formatLayerJson(0, "success", null);
     }
 
