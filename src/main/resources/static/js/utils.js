@@ -23,7 +23,7 @@ function renderForm() {
     });
 }
 
-function getDate() {
+function getDateNow() {
     // 获取当前日期
     var date = new Date();
 // 获取当前月份
@@ -45,13 +45,24 @@ function getDate() {
     return nowDate;
 }
 
-function getLastDate() {
+function getDate() {
     // 获取当前日期
     var date = new Date();
+    var hours = date.getHours();
+    if (hours < 8) {
+        return getLastDate();
+    } else {
+        return getDateNow();
+    }
+}
+
+function getLastDate() {
+    // 获取当前日期
+    var date = new Date(new Date - 1000 * 60 * 60 * 24);
 // 获取当前月份
     var nowMonth = date.getMonth() + 1;
 // 获取当前是几号
-    var strDate = date.getDate() - 1;
+    var strDate = date.getDate();
 // 添加分隔符“-”
     var seperator = "-";
 // 对月份进行处理，1-9月在前面添加一个“0”
