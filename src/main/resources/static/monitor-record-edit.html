@@ -124,18 +124,18 @@
                 </div>
             </div>
             <div class="layui-form-item" id="equipment_table_div">
-<!--                                <table id="pause_table" class="layui-table layui-form" lay-filter="pause_table"></table>-->
-                <table class="layui-table" lay-data="{url:'/getPauseRecordNow', height: 700,page:true, id:'pause_table', toolbar: '#toolbarDemo'}"
-                       lay-filter="pause_table">
-                    <thead>
-                    <tr>
-                        <th lay-data="{field: 'uuid', width: 90, title: 'UUID', hide: true}"></th>
-                        <th lay-data="{field: 'pauselevel', width: 90, title: '叫停等级', templet: '#switchTpl'}"></th>
-                        <th lay-data="{field: 'detail', title: '叫停描述', edit: 'text'}"></th>
-                        <th lay-data="{title: '操作', width: 100, align: 'center', toolbar: '#equipment_table_tool'}"></th>
-                    </tr>
-                    </thead>
-                </table>
+                <table id="pause_table" class="layui-table layui-form" lay-filter="pause_table"></table>
+<!--                <table class="layui-table" lay-data="{url:'/getPauseRecordNow', height: 700,page:true, id:'pause_table', toolbar: '#toolbarDemo'}"-->
+<!--                       lay-filter="pause_table">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th lay-data="{field: 'uuid', width: 90, title: 'UUID', hide: true}"></th>-->
+<!--                        <th lay-data="{field: 'pauselevel', width: 90, title: '叫停等级', templet: '#switchTpl'}"></th>-->
+<!--                        <th lay-data="{field: 'detail', title: '叫停描述', edit: 'text'}"></th>-->
+<!--                        <th lay-data="{title: '操作', width: 100, align: 'center', toolbar: '#equipment_table_tool'}"></th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                </table>-->
             </div>
             <div class="layui-form-item">
                 <button class="layui-btn layui-btn-fluid" lay-filter="add" lay-submit="" onclick="return false;">保存</button>
@@ -208,19 +208,24 @@
             elem: '#workShiftDate' //指定元素
         });
 
-        // table.render({
-        //     elem: '#pause_table'
-        //     , url: '/getNullData' //数据接口
-        //     , height: 700
-        //     , page: true
-        //     , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-        //     , cols: [[ //表头
-        //         {field: 'uuid', width: 90, title: 'UUID', hide: true},
-        //         {field: 'pauselevel', width: 90, title: '叫停等级', templet: "#switchTpl"},
-        //         {field: 'detail', title: '叫停描述', edit: 'text'},
-        //         {title: '操作', width: 100, align: 'center', toolbar: '#equipment_table_tool'}
-        //     ]]
-        // });
+        table.render({
+            elem: '#pause_table'
+            , url:'/getPauseRecordNow'
+            , where:{
+                workShiftDate: getDate(),
+                workingShift: getWorkingShiftNow()
+            }
+            , id:'pause_table'
+            , height: 700
+            , page: true
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , cols: [[ //表头
+                {field: 'uuid', width: 90, title: 'UUID', hide: true},
+                {field: 'pauselevel', width: 90, title: '叫停等级', templet: "#switchTpl"},
+                {field: 'detail', title: '叫停描述', edit: 'text'},
+                {title: '操作', width: 100, align: 'center', toolbar: '#equipment_table_tool'}
+            ]]
+        });
 
         //头工具栏事件
         table.on('toolbar(pause_table)', function (obj) {

@@ -234,9 +234,11 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public String getPauseRecordNow(HttpServletRequest request) {
+        String date = request.getParameter("workShiftDate");
+        String workingshift = request.getParameter("workingShift");
         List<PauseRecord> selectList = pauseRecordDao.selectList(new QueryWrapper<PauseRecord>()
-                .eq("workingshiftdate", DateUtils.getInstance().getDate())
-                .eq("workingshift", DateUtils.getInstance().getWorkingShift()));
+                .eq("workingshiftdate", date)
+                .eq("workingshift", workingshift));
         JSONArray jsonArray = new JSONArray();
         for (PauseRecord pauseRecord : selectList) {
             JSONObject json = new JSONObject();
