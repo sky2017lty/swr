@@ -81,7 +81,7 @@ function getLastDate() {
 function getWorkingShiftNow() {
     var myDate = new Date();
     var myTime = myDate.getHours();
-    if (myTime <= 8 || myTime >= 19) {
+    if (myTime < 8 || myTime >= 19) {
         return 1;
     } else {
         return 0;
@@ -100,7 +100,7 @@ function getLastWorkingShift() {
 function dateInput(id) {
     var myDate = new Date();
     var myTime = myDate.getHours();
-    if (myTime <= 8) {
+    if (myTime < 8) {
         set_select_checked("workingShift", 1);
         $("." + id).attr("value", getLastDate());
         $(".workingShift").attr("value", 1);

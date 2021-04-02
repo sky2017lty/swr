@@ -182,8 +182,8 @@
 
     function getWorkingShift() {
         var myTime = new Date().getHours();
-        if (myTime <= 8) { //返回上一天夜班
-            str = getLastDate() + " 夜班";
+        if (myTime < 8) { //返回上一天夜班
+            str = getDate() + " 夜班";
             $("#workShift").text(str);
         } else if (myTime >= 19) { //返回当天夜班
             str = getDate() + " 夜班";
@@ -198,8 +198,8 @@
         var myDate = new Date();
         var myTime = myDate.getHours();
         var str = "";
-        if (myTime <= 8) { //返回上一天日班
-            str = getLastDate() + " 日班";
+        if (myTime < 8) { //返回上一天日班
+            str = getDate() + " 日班";
         } else if (myTime >= 19) { //返回当天日班
             str = getDate() + " 日班";
         } else { //返回上一天夜班
