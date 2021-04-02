@@ -115,7 +115,7 @@
                 {
                     field: 'workingshift', title: '班次', templet: function (d) {
                         if (d.workingshift == 0) {
-                            return '日班';
+                            return '白班';
                         } else {
                             return '夜班';
                         }
@@ -163,7 +163,7 @@
             } else if (layEvent === 'del') { //删除
                 var workingShift = "";
                 if (data.workingshift == 0) {
-                    workingShift = "日班";
+                    workingShift = "白班";
                 } else if (data.workingshift == 1) {
                     workingShift = "夜班";
                 }
