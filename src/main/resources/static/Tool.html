@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./css/font.css">
     <link rel="stylesheet" href="./css/xadmin.css">
     <script src="./js/jquery.min.js" charset="utf-8"></script>
+    <script src="./js/utils.js" charset="utf-8"></script>
     <script src="./lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="./js/xadmin.js"></script>
     <!--[if lt IE 9]>
@@ -95,32 +96,7 @@
                 {field: 'name', title: '工具名', sort: true}
                 , {
                     field: 'process', title: '工序', sort: true, templet: function (d) {
-                        var res = '';
-                        // console.log(d.process);
-                        switch (d.process) {
-                            case 'VisualInspection':
-                                res = '目检';
-                                break;
-                            case 'Thickness':
-                                res = '厚度';
-                                break;
-                            case 'Resistivity':
-                                res = '电阻率';
-                                break;
-                            case 'Particles':
-                                res = '颗粒';
-                                break;
-                            case 'PutOnShelf':
-                                res = '成品上架';
-                                break;
-                            case 'FinalInspection':
-                                res = '终检';
-                                break;
-                            case 'Monitor':
-                                res = '班长';
-                                break;
-                        }
-                        return res;
+                        return processC(d.process);
                     }
                 }
                 , {field: 'detail', title: '描述'}

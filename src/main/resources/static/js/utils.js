@@ -209,6 +209,8 @@ function processE(process) {
             return "PutOnShelf";
         case "终检":
             return "FinalInspection";
+        case "腐蚀打扩":
+            return "Corrosion";
         case "班长":
             return "Monitor";
     }
@@ -228,6 +230,8 @@ function processC(process) {
             return "成品上架";
         case "FinalInspection":
             return "终检";
+        case "Corrosion":
+            return "腐蚀打扩";
         case "Monitor":
             return "班长";
     }
