@@ -116,11 +116,14 @@
 <script>
     function getRecordNow(process) {
         //检查当前班次，如果在8点/19点，返回上一班次（临时修改，1.0.0换模式）
-        var hours = new date().getHours();
+        var hours = new Date().getHours();
         var nowDate = getDate();
         var nowWorkingShift = getWorkingShiftNow();
-        if (hours == 8 || hours == 19) {//返回上一班次
+        if (hours == 8) {//返回上一班次
             var nowDate = getLastDate();
+            var nowWorkingShift = getLastWorkingShift();
+        } else if (hours == 19) {
+            var nowDate = getDate();
             var nowWorkingShift = getLastWorkingShift();
         } else {
             var nowDate = getDate();
