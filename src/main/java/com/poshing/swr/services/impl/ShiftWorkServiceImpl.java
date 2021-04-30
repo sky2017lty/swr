@@ -30,8 +30,8 @@ public class ShiftWorkServiceImpl implements ShiftWorkService {
 
     @Override
     public String getShiftWorkPeople(HttpServletRequest request) {
-        String startDate = request.getParameter("startDate");
-        String endDate = request.getParameter("endDate");
+        String startDate = request.getParameter("start");
+        String endDate = request.getParameter("end");
         if (startDate == null) {
             startDate = "1453-05-29";
         }

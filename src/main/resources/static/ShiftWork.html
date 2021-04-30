@@ -145,6 +145,10 @@
                     "count": res.count, //解析数据长度
                     "data": result //解析数据列表
                 };
+            },
+            done: function (res, curr, count) {
+                // 绑定表格工具栏按钮的触发事件
+                bindTableToolbarFunction();
             }
             // toolbar: '#visual_inspection_table_toolbar' //开启头部工具栏，并为其绑定左侧模板
             // , defaultToolbar: ['exports', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
@@ -154,19 +158,25 @@
             // }]
         });
 
-        $("#export").click(function () {
-            $.ajax({
-                url: "/getShiftWorkPeople",    //请求的url地址
-                dataType: "json",   //返回格式为json
-                // data: data,    //参数值
-                type: "GET",   //请求方式
-                success: function (req) {
-                    //请求成功时处理
-                    table.exportFile('visual_inspection_table', req.data, 'xls');
-                }
+        function bindTableToolbarFunction() {
+            $("#export").on("click", function () {
+                var start = $("#start").val();
+                var end = $("#end").val();
+                $.ajax({
+                    url: "/getShiftWorkPeople",    //请求的url地址
+                    dataType: "json",   //返回格式为json
+                    data: {
+                        'start': start,
+                        'end': end
+                    },    //参数值
+                    type: "GET",   //请求方式
+                    success: function (req) {
+                        //请求成功时处理
+                        table.exportFile('visual_inspection_table', req.data, 'xls');
+                    }
+                });
             });
-
-        });
+        }
 
         /* table.on('tool(visual_inspection_table)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
              var data = obj.data; //获得当前行数据
@@ -237,15 +247,18 @@
             var start = $("#start").val();
             var end = $("#end").val();
             table.reload('visual_inspection_table', {
-                method: 'post'
-                , url: '/searchByDate'
+                method: 'get'
+                , url: '/getShiftWorkPeople'
                 , where: {
                     'start': start,
-                    'end': end,
-                    'process': 'PutOnShelf'
+                    'end': end
                 }
                 , page: {
                     curr: 1
+                }
+                , done: function (res, curr, count) {
+                    // 绑定表格工具栏按钮的触发事件
+                    bindTableToolbarFunction();
                 }
             });
         });
