@@ -97,6 +97,30 @@ function getLastWorkingShift() {
     }
 }
 
+/**
+ * 获取班次基于当前时间
+ */
+function getRecordByTime() {
+    //检查当前班次，如果在8点/19点，返回上一班次（临时修改，1.0.0换模式）
+    var d = new Object();
+    var hours = new Date().getHours();
+    var nowDate = getDate();
+    var nowWorkingShift = getWorkingShiftNow();
+    if (hours == 8) {//返回上一班次
+        var nowDate = getLastDate();
+        var nowWorkingShift = getLastWorkingShift();
+    } else if (hours == 19) {
+        var nowDate = getDate();
+        var nowWorkingShift = getLastWorkingShift();
+    } else {
+        var nowDate = getDate();
+        var nowWorkingShift = getWorkingShiftNow();
+    }
+    d.nowDate = nowDate;
+    d.nowWorkingShift = nowWorkingShift;
+    return d;
+}
+
 function dateInput(id) {
     var myDate = new Date();
     var myTime = myDate.getHours();
@@ -211,6 +235,8 @@ function processE(process) {
             return "FinalInspection";
         case "腐蚀打扩":
             return "Corrosion";
+        case "包装":
+            return "Package";
         case "班长":
             return "Monitor";
     }
@@ -232,6 +258,8 @@ function processC(process) {
             return "终检";
         case "Corrosion":
             return "腐蚀打扩";
+        case "Package":
+            return "包装";
         case "Monitor":
             return "班长";
     }

@@ -98,7 +98,7 @@
 </div>
 <script>
     window.onload = function () {
-        dateInput("workShiftDate");
+        // dateInput("workShiftDate");
         var process = getUrlVariable(`process`);
         checkToolExist(process); //检查工具是否存在
         checkEquipmentExist(process); //检查是否有设备
@@ -115,38 +115,32 @@
 </script>
 <script>
     function getRecordNow(process) {
-        //检查当前班次，如果在8点/19点，返回上一班次（临时修改，1.0.0换模式）
-        var hours = new Date().getHours();
-        var nowDate = getDate();
-        var nowWorkingShift = getWorkingShiftNow();
-        if (hours == 8) {//返回上一班次
-            var nowDate = getLastDate();
-            var nowWorkingShift = getLastWorkingShift();
-        } else if (hours == 19) {
-            var nowDate = getDate();
-            var nowWorkingShift = getLastWorkingShift();
-        } else {
-            var nowDate = getDate();
-            var nowWorkingShift = getWorkingShiftNow();
-        }
+        var recordByTime = getRecordByTime();
         $.ajax({
             url: "/getNormalRecordNow",    //请求的url地址
             dataType: "json",   //返回格式为json
             data: {
                 "process": process,
-                "workShiftDate": nowDate,
-                "workingShift": nowWorkingShift
+                "workShiftDate": recordByTime.nowDate,
+                "workingShift": recordByTime.nowWorkingShift
             },    //参数值
             type: "POST",   //请求方式
             success: function (req) {
                 //请求成功时处理
                 // layer.tips("成功创建记录,现在记录才会被保存", data.othis);
-                $("#startShift").attr('value', req.data.startshift);
-                $("#endShift").attr('value', req.data.endshift);
-                $("#fileUpdate").text(req.data.fileupdate);
-                $("#importantMatter").text(req.data.importantmatter);
-                $("#importantMatter_Now").text(req.data.importantmatterNow);
-                $("#unQualified").text(req.data.unqualified);
+                if (req.code == 200) {
+                    dateInput("workShiftDate");
+                } else {
+                    $("#startShift").attr('value', req.data.startshift);
+                    $("#endShift").attr('value', req.data.endshift);
+                    $("#workShiftDate").attr('value', req.data.workingshiftdate);
+                    $("#fileUpdate").text(req.data.fileupdate);
+                    $("#importantMatter").text(req.data.importantmatter);
+                    $("#importantMatter_Now").text(req.data.importantmatterNow);
+                    $("#unQualified").text(req.data.unqualified);
+                    set_select_checked("workingShift", req.data.workingshift);
+                    renderForm();
+                }
             }
         });
     }
@@ -163,6 +157,7 @@
             elem: '#workShiftDate' //指定元素
         });
 
+        var recordByTime = getRecordByTime();
         var process = getUrlVariable("process");
 
         table.render({
@@ -170,8 +165,8 @@
             , url: '/getEquipmentRecordNow' //数据接口
             , where: {
                 process: process,
-                workShiftDate: getDate(),
-                workingShift: getWorkingShiftNow()
+                workShiftDate: recordByTime.nowDate,
+                workingShift: recordByTime.nowWorkingShift
             }
             , cols: [[ //表头
                 {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
@@ -190,8 +185,8 @@
             , url: '/getToolRecordNow' //数据接口
             , where: {
                 process: process,
-                workShiftDate: getDate(),
-                workingShift: getWorkingShiftNow()
+                workShiftDate: recordByTime.nowDate,
+                workingShift: recordByTime.nowWorkingShift
             }
             , cols: [[ //表头
                 {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
