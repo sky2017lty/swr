@@ -118,17 +118,17 @@
             , defaultToolbar: ['filter', 'exports', 'print']
             , page: true //开启分页
             , cols: [[
-                {field: 'workingshiftdate', title: '日期', sort: true},
-                {field: 'workingshift', title: '班次'},
-                {field: 'Monitor', title: '班长'},
-                {field: 'VisualInspection', title: '目检'},
-                {field: 'Thickness', title: '厚度'},
-                {field: 'Resistivity', title: '电阻率'},
-                {field: 'Particles', title: '颗粒'},
-                {field: 'PutOnShelf', title: '成品上架'},
-                {field: 'FinalInspection', title: '终检'},
-                {field: 'Corrosion', title: '腐蚀打扩'},
-                {field: 'Package', title: '包装'}
+                {field: 'workingshiftdate', title: '日期', sort: true, width: 120},
+                {field: 'workingshift', title: '班次', width: 80},
+                {field: 'Monitor', title: '班长', width: 200},
+                {field: 'VisualInspection', title: '目检', width: 200},
+                {field: 'Thickness', title: '厚度', width: 200},
+                {field: 'Resistivity', title: '电阻率', width: 200},
+                {field: 'Particles', title: '颗粒', width: 200},
+                {field: 'PutOnShelf', title: '成品上架', width: 200},
+                {field: 'FinalInspection', title: '终检', width: 200},
+                {field: 'Corrosion', title: '腐蚀打扩', width: 200},
+                {field: 'Package', title: '包装', width: 200}
             ]],
             parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                 var result;
