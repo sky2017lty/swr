@@ -1,14 +1,11 @@
 package com.poshing.swr.services.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.poshing.swr.dao.EquipmentRecordDao;
-import com.poshing.swr.dao.LongRecordDao;
-import com.poshing.swr.dao.RecordDao;
-import com.poshing.swr.dao.ToolRecordDao;
-import com.poshing.swr.entity.EquipmentRecord;
-import com.poshing.swr.entity.LongRecord;
-import com.poshing.swr.entity.Record;
-import com.poshing.swr.entity.ToolRecord;
+import com.poshing.swr.dao.*;
+import com.poshing.swr.entity.*;
 import com.poshing.swr.services.NormalRecordAddService;
 import com.poshing.swr.utils.JsonUtils;
 import com.poshing.swr.utils.UuidUtil;
@@ -16,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author: LiTianyi
@@ -36,6 +34,9 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
 
     @Resource
     private LongRecordDao longRecordDao;
+
+    @Resource
+    private UnqualifiedDao unqualifiedDao;
 
     @Override
     public String insertEquipmentRecord(HttpServletRequest request) {
@@ -230,6 +231,80 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
                 .eq("process", process));
         if (1 == flag) {
             return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String getUnQualifiedRecordNow(HttpServletRequest request) {
+        String workShiftDate = request.getParameter("workShiftDate");
+        String workingShift = request.getParameter("workingShift");
+        String process = request.getParameter("process");
+        List<Unqualified> selectList = unqualifiedDao.selectList(new QueryWrapper<Unqualified>()
+                .eq("workingshiftdate", workShiftDate)
+                .eq("workingshift", workingShift)
+                .eq("process", process));
+        JSONArray jsonArray = new JSONArray();
+        for (Unqualified unqualified : selectList) {
+            JSONObject json = new JSONObject();
+            json.put("uuid", unqualified.getUuid());
+            json.put("furnace", unqualified.getFurnace());
+            json.put("exception", unqualified.getException());
+            json.put("subsequent", unqualified.getSubsequent());
+            jsonArray.add(json);
+        }
+        return JsonUtils.getInstance().formatLayerJson(0, "success", jsonArray);
+    }
+
+    @Override
+    public String insertUnQualifiedRecord(HttpServletRequest request) {
+        String workShiftDate = request.getParameter("date");
+        String workingShift = request.getParameter("workingShift");
+        String process = request.getParameter("process");
+        Unqualified unqualified = new Unqualified();
+        unqualified.setUuid(UuidUtil.getUuid());
+        unqualified.setWorkingshiftdate(workShiftDate);
+        unqualified.setWorkingshift(workingShift);
+        unqualified.setProcess(process);
+        int flag = unqualifiedDao.insert(unqualified);
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(unqualified));
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String deleteUnQualifiedRecord(HttpServletRequest request) {
+        String uuid = request.getParameter("uuid");
+        int flag = unqualifiedDao.delete(new QueryWrapper<Unqualified>().eq("uuid", uuid));
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String updateUnQualifiedRecord(HttpServletRequest request) {
+        String uuid = request.getParameter("uuid");
+        String workShiftDate = request.getParameter("workShiftDate");
+        String workingShift = request.getParameter("workingShift");
+        String process = request.getParameter("process");
+        String furnace = request.getParameter("furnace");
+        String exception = request.getParameter("exception");
+        String subsequent = request.getParameter("subsequent");
+        Unqualified one = unqualifiedDao.selectOne(new QueryWrapper<Unqualified>().eq("uuid", uuid));
+        if (one == null) {
+            return JsonUtils.getInstance().formatLayerJson(300, "找不到记录", null);
+        }
+        one.setFurnace(furnace);
+        one.setException(exception);
+        one.setSubsequent(subsequent);
+        int flag = unqualifiedDao.updateById(one);
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
         } else {
             return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
         }

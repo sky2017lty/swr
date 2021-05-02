@@ -75,4 +75,32 @@ public class NormalRecordAddController {
         return normalRecordAddService.updateRecord(request);
     }
 
+    /**
+     * 修改不合格记录
+     * @param request
+     * @return
+     */
+    @GetMapping("/getUnQualifiedRecordNow")
+    @ResponseBody
+    public String getUnQualifiedRecordNow(HttpServletRequest request) {
+        return normalRecordAddService.getUnQualifiedRecordNow(request);
+    }
+
+    @GetMapping("/insertUnQualifiedRecord")
+    @ResponseBody
+    public String insertUnQualifiedRecord(HttpServletRequest request) {
+        return normalRecordAddService.insertUnQualifiedRecord(request);
+    }
+
+    @GetMapping("/deleteUnQualifiedRecord")
+    @ResponseBody
+    public String deleteUnQualifiedRecord(HttpServletRequest request) {
+        return normalRecordAddService.deleteUnQualifiedRecord(request);
+    }
+
+    @GetMapping("/updateUnQualifiedRecord")
+    @ResponseBody
+    public String updateUnQualifiedRecord(HttpServletRequest request) {
+        return normalRecordAddService.updateUnQualifiedRecord(request);
+    }
 }
