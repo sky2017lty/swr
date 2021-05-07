@@ -10,6 +10,8 @@ import com.poshing.swr.entity.MonitorRecord;
 import com.poshing.swr.entity.Record;
 import com.poshing.swr.services.ShiftWorkService;
 import com.poshing.swr.utils.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +24,8 @@ import java.util.List;
 @Service
 public class ShiftWorkServiceImpl implements ShiftWorkService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ShiftWorkServiceImpl.class);
+
     @Resource
     private RecordDao recordDao;
 
@@ -32,10 +36,10 @@ public class ShiftWorkServiceImpl implements ShiftWorkService {
     public String getShiftWorkPeople(HttpServletRequest request) {
         String startDate = request.getParameter("start");
         String endDate = request.getParameter("end");
-        if (startDate == null) {
+        if (startDate == null || "".equals(startDate)) {
             startDate = "1453-05-29";
         }
-        if (endDate == null) {
+        if (endDate == null || "".equals(endDate)) {
             endDate = "2077-01-01";
         }
         List<Record> records = recordDao.selectList(new QueryWrapper<Record>()
