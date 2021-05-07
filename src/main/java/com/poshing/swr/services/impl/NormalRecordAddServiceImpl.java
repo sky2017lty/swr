@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.poshing.swr.dao.*;
 import com.poshing.swr.entity.*;
+import com.poshing.swr.entity.Record;
 import com.poshing.swr.services.NormalRecordAddService;
 import com.poshing.swr.utils.JsonUtils;
 import com.poshing.swr.utils.UuidUtil;

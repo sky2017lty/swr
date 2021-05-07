@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;database=POSHINGSWR
+    url: jdbc:sqlserver://8.140.156.107:1433;database=POSHINGSWR
     username: sa
     password: 19970603
 mybatis-plus:
