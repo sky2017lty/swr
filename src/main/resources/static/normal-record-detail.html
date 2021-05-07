@@ -125,6 +125,16 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
+                <div class="layui-card-header">异常情况</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table" id="unQualified_record_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
                 <div class="layui-card-header">设备情况</div>
                 <div class="layui-card-body ">
                     <table class="layui-table" id="equipment_record_table"></table>
@@ -188,6 +198,27 @@
             "&workingShift=" + workingShift;
         var equipmentUrl = "/getEquipmentRecord" + url;
         var toolUrl = "/getToolRecord" + url;
+        var recordByTime = getRecordByTime();
+
+        table.render({
+            elem: '#unQualified_record_table'
+            , url: '/getUnQualifiedRecordNow'
+            , where: {
+                process: process,
+                workShiftDate: date,
+                workingShift: workingShift
+            }
+            , id: 'unQualified_record_table'
+            , height: 700
+            , page: true
+            // , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , cols: [[ //表头
+                {field: 'uuid', width: 90, title: 'UUID', hide: true},
+                {field: 'furnace', width: 90, title: '炉腔'},
+                {field: 'exception', title: '异常描述'},
+                {field: 'subsequent', title: '后继进展'}
+            ]]
+        });
 
         table.render({
             elem: '#equipment_record_table'
