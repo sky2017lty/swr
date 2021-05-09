@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -242,14 +243,22 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         String workShiftDate = request.getParameter("workShiftDate");
         String workingShift = request.getParameter("workingShift");
         String process = request.getParameter("process");
-        List<Unqualified> selectList = unqualifiedDao.selectList(new QueryWrapper<Unqualified>()
-                .eq("workingshiftdate", workShiftDate)
-                .eq("workingshift", workingShift)
-                .eq("process", process));
+        List<Unqualified> selectList;
+        if (process.isEmpty()) {
+            selectList = unqualifiedDao.selectList(new QueryWrapper<Unqualified>()
+                    .eq("workingshiftdate", workShiftDate)
+                    .eq("workingshift", workingShift));
+        } else {
+            selectList = unqualifiedDao.selectList(new QueryWrapper<Unqualified>()
+                    .eq("workingshiftdate", workShiftDate)
+                    .eq("workingshift", workingShift)
+                    .eq("process", process));
+        }
         JSONArray jsonArray = new JSONArray();
         for (Unqualified unqualified : selectList) {
             JSONObject json = new JSONObject();
             json.put("uuid", unqualified.getUuid());
+            json.put("process", unqualified.getProcess());
             json.put("furnace", unqualified.getFurnace());
             json.put("exception", unqualified.getException());
             json.put("subsequent", unqualified.getSubsequent());
