@@ -57,6 +57,9 @@ public class IndexServiceImpl implements IndexService {
     @Resource
     private NowRecordDao nowRecordDao;
 
+    @Resource
+    private UnqualifiedDao unqualifiedDao;
+
     @Override
     public String getAllProcess() {
         List<Process> processList = processDao.selectList(new QueryWrapper<Process>());
@@ -161,6 +164,7 @@ public class IndexServiceImpl implements IndexService {
         map.put("workingshift", workingshift);
         int equipmentRecordFlag = equipmentRecordDao.deleteByMap(map);
         int toolRecordFlag = toolRecordDao.deleteByMap(map);
+        int unqualifiedFlag = unqualifiedDao.deleteByMap(map);
         int recordFlag = recordDao.delete(new QueryWrapper<Record>()
                 .eq("uuid", uuid));
         return JsonUtils.getInstance().formatLayerJson(0, "success", null);

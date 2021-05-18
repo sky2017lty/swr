@@ -195,7 +195,10 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public String getAllMonitorRecord(HttpServletRequest request) {
-        List<MonitorRecord> selectList = monitorRecordDao.selectList(new QueryWrapper<MonitorRecord>().orderByDesc("workingshiftdate"));
+        List<MonitorRecord> selectList = monitorRecordDao.selectList(new QueryWrapper<MonitorRecord>()
+                .ge("workingshiftdate", DateUtils.getInstance().getThirtyDateAgo())
+                .le("workingshiftdate", DateUtils.getInstance().getTodayDate())
+                .orderByDesc("workingshiftdate", "workingshift"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", selectList.size(), JSON.toJSONString(selectList));
     }
 
@@ -215,7 +218,8 @@ public class MonitorServiceImpl implements MonitorService {
         String end = request.getParameter("end");
         List<MonitorRecord> recordList = monitorRecordDao.selectList(new QueryWrapper<MonitorRecord>()
                 .ge("workingshiftdate", start)
-                .le("workingshiftdate", end));
+                .le("workingshiftdate", end)
+                .orderByDesc("workingshiftdate", "workingshift"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", recordList.size(), JSON.toJSONString(recordList));
     }
 

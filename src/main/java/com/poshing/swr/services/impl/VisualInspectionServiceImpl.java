@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.poshing.swr.dao.*;
 import com.poshing.swr.entity.*;
 import com.poshing.swr.services.VisualInspectionService;
+import com.poshing.swr.utils.DateUtils;
 import com.poshing.swr.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,11 @@ public class VisualInspectionServiceImpl implements VisualInspectionService {
     @Override
     public String getAllRecord(HttpServletRequest request) {
         String process = request.getParameter("process");
-        List<Record> recordList = recordDao.selectList(new QueryWrapper<Record>().eq("process", process).orderByDesc("workingshiftdate"));
+        List<Record> recordList = recordDao.selectList(new QueryWrapper<Record>()
+                .eq("process", process)
+                .ge("workingshiftdate", DateUtils.getInstance().getThirtyDateAgo())
+                .le("workingshiftdate", DateUtils.getInstance().getTodayDate())
+                .orderByDesc("workingshiftdate", "workingshift"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", recordList.size(), JSON.toJSONString(recordList));
     }
 
@@ -53,7 +58,7 @@ public class VisualInspectionServiceImpl implements VisualInspectionService {
                 .eq("process", process)
                 .ge("workingshiftdate", start)
                 .le("workingshiftdate", end)
-                .orderByDesc("workingshiftdate"));
+                .orderByDesc("workingshiftdate", "workingshift"));
         return JsonUtils.getInstance().formatLayerJson(0, "success", recordList.size(), JSON.toJSONString(recordList));
     }
 

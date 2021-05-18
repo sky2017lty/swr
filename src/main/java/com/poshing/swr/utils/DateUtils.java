@@ -1,6 +1,7 @@
 package com.poshing.swr.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -28,6 +29,21 @@ public class DateUtils {
         } else {
             return ft.format(today);
         }
+    }
+
+    public String getTodayDate() {
+        Date today = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        return ft.format(today);
+    }
+
+    public String getThirtyDateAgo() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -1);
+        Date m = c.getTime();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+        return ft.format(m);
     }
 
     public String getWorkingShift() {
