@@ -21,3 +21,13 @@
     right: 0;
     bottom: 0;
 }
+
+@media print {
+
+    .noprint{
+        display: none;
+    }
+
+    .pagebreak{ page-break-after:always;  } /*分页控制 */
+
+}
