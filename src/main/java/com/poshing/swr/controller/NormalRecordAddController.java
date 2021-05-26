@@ -4,6 +4,7 @@ import com.poshing.swr.services.NormalRecordAddService;
 import com.poshing.swr.utils.JsonUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -69,7 +70,7 @@ public class NormalRecordAddController {
      * @param request
      * @return
      */
-    @GetMapping("/updateRecord")
+    @PostMapping("/updateRecord")
     @ResponseBody
     public String updateRecord(HttpServletRequest request) {
         return normalRecordAddService.updateRecord(request);

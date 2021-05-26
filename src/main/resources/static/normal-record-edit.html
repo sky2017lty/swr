@@ -463,7 +463,7 @@
             url: "/updateRecord",    //请求的url地址
             dataType: "json",   //返回格式为json
             data: d,    //参数值
-            type: "GET",   //请求方式
+            type: "POST",   //请求方式
             success: function (req) {
                 //请求成功时处理
                 if (req.code == 0) {
@@ -477,7 +477,7 @@
                             xadmin.father_reload();
                         });
                 } else {
-                    layer.alert("增加失败" + req.msg, function () {
+                    layer.alert("增加失败 原因:" + req.msg, function () {
                         //关闭当前frame
                         xadmin.close();
                         // 可以对父窗口进行刷新

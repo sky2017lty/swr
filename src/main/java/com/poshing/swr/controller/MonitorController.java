@@ -56,7 +56,7 @@ public class MonitorController {
         return monitorService.deletePauseRecord(request);
     }
 
-    @GetMapping("/updateMonitorRecord")
+    @PostMapping("/updateMonitorRecord")
     @ResponseBody
     public String updateMonitorRecord(HttpServletRequest request) {
         return monitorService.updateMonitorRecord(request);

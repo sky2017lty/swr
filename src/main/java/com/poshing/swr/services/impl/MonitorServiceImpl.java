@@ -177,7 +177,6 @@ public class MonitorServiceImpl implements MonitorService {
         MonitorRecord one = monitorRecordDao.selectOne(new QueryWrapper<MonitorRecord>()
                 .eq("uuid", uuid));
         return JSON.toJSONString(one);
-
     }
 
     @Override

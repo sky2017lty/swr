@@ -9,6 +9,7 @@ import com.poshing.swr.dao.RecordDao;
 import com.poshing.swr.entity.MonitorRecord;
 import com.poshing.swr.entity.Record;
 import com.poshing.swr.services.ShiftWorkService;
+import com.poshing.swr.utils.DateUtils;
 import com.poshing.swr.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,10 @@ public class ShiftWorkServiceImpl implements ShiftWorkService {
         String startDate = request.getParameter("start");
         String endDate = request.getParameter("end");
         if (startDate == null || "".equals(startDate)) {
-            startDate = "1453-05-29";
+            startDate = DateUtils.getInstance().getThirtyDateAgo();
         }
         if (endDate == null || "".equals(endDate)) {
-            endDate = "2077-01-01";
+            endDate = DateUtils.getInstance().getDate();
         }
         List<Record> records = recordDao.selectList(new QueryWrapper<Record>()
                 .ge("workingshiftdate", startDate)
@@ -48,7 +49,7 @@ public class ShiftWorkServiceImpl implements ShiftWorkService {
         List<MonitorRecord> monitorRecords = monitorRecordDao.selectList(new QueryWrapper<MonitorRecord>()
                 .ge("workingshiftdate", startDate)
                 .le("workingshiftdate", endDate)
-                .orderByDesc("workingshiftdate"));
+                .orderByDesc("workingshiftdate", "workingshift"));
         JSONArray jsonArray = new JSONArray();
         for (MonitorRecord monitorRecord : monitorRecords) {
             JSONObject json = new JSONObject();
