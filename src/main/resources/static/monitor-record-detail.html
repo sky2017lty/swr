@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
-
 <head>
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.2</title>
@@ -26,7 +25,10 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">记录信息<button class="layui-btn layui-btn-xs noprint" style="float:right;margin-top: 5px;" onclick="window.print();">打印</button></div>
+                <div class="layui-card-header">记录信息
+                    <button id="Print" class="layui-btn layui-btn-xs noprint" style="float:right;margin-top: 5px;">打印
+                    </button>
+                </div>
                 <div class="layui-card-body ">
                     <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                         <li class="layui-col-md3 layui-col-xs6">
@@ -194,7 +196,7 @@
             </div>
         </div>
     </div>
-    <div class="layui-row layui-col-space10 pagebreak">
+    <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">安全隐患</div>
@@ -263,6 +265,11 @@
         });
     };
 
+    $("#Print").click(function () {
+        window.print();
+    });
+
+
     layui.use(['form', 'layer', 'jquery', 'table', 'laydate'], function () {
         $ = layui.jquery;
         var form = layui.form,
@@ -282,7 +289,8 @@
             , url: pauseUrl //数据接口
             , cols: [[ //表头
                 {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
-                {field: 'pauselevel', width: 120, title: '叫停等级', sort: true,
+                {
+                    field: 'pauselevel', width: 120, title: '叫停等级', sort: true,
                     templet: function (d) {
                         return d.pauselevel == 1 ? "最高级" : "一般";
                     }
@@ -303,9 +311,11 @@
             // , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , cols: [[ //表头
                 {field: 'uuid', width: 90, title: 'UUID', hide: true},
-                {field: 'process', width: 90, title: '工序', templet: function (d) {
+                {
+                    field: 'process', width: 90, title: '工序', sort: true, templet: function (d) {
                         return processC(d.process);
-                    }},
+                    }
+                },
                 {field: 'furnace', width: 90, title: '炉腔'},
                 {field: 'exception', title: '异常描述'},
                 {field: 'subsequent', title: '后继进展'}
