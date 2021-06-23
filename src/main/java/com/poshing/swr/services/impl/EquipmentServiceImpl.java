@@ -75,6 +75,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         String process = request.getParameter("equipment_process");
         String uuid = request.getParameter("equipment_uuid");
         String status = request.getParameter("equipment_status");
+        String lastchecktime = request.getParameter("equipment_lastchecktime");
+        String checkrecord = request.getParameter("equipment_checkrecord");
         Equipment one = equipmentDao.selectOne(new QueryWrapper<Equipment>().eq("uuid", uuid));
         if (one == null) {
             return JsonUtils.getInstance().formatLayerJson(300, "设备不存在", null);
@@ -84,6 +86,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipment.setName(name);
         equipment.setProcess(process);
         equipment.setStatus(status);
+        equipment.setLastchecktime(lastchecktime);
+        equipment.setCheckrecord(checkrecord);
         int flag = equipmentDao.updateById(equipment);
         if (1 == flag) {
             return JsonUtils.getInstance().formatLayerJson(0, "success", null);

@@ -26,6 +26,10 @@ public class Tool extends Model<Tool> {
 
     private String status;
 
+    private String lastchecktime;
+
+    private String checkrecord;
+
 
     public String getUuid() {
         return uuid;
@@ -45,6 +49,22 @@ public class Tool extends Model<Tool> {
 
     public String getDetail() {
         return detail;
+    }
+
+    public String getLastchecktime() {
+        return lastchecktime;
+    }
+
+    public void setLastchecktime(String lastchecktime) {
+        this.lastchecktime = lastchecktime;
+    }
+
+    public String getCheckrecord() {
+        return checkrecord;
+    }
+
+    public void setCheckrecord(String checkrecord) {
+        this.checkrecord = checkrecord;
     }
 
     public void setDetail(String detail) {

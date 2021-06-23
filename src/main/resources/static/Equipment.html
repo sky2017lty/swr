@@ -82,31 +82,6 @@
                 {field: 'name', title: '设备名', sort: true}
                 , {
                     field: 'process', title: '工序', sort: true, templet: function (d) {
-                        // var res = '';
-                        // console.log(d.process);
-                        // switch (d.process) {
-                        //     case 'VisualInspection':
-                        //         res = '目检';
-                        //         break;
-                        //     case 'Thickness':
-                        //         res = '厚度';
-                        //         break;
-                        //     case 'Resistivity':
-                        //         res = '电阻率';
-                        //         break;
-                        //     case 'Particles':
-                        //         res = '颗粒';
-                        //         break;
-                        //     case 'PutOnShelf':
-                        //         res = '成品上架';
-                        //         break;
-                        //     case 'FinalInspection':
-                        //         res = '终检';
-                        //         break;
-                        //     case 'Monitor':
-                        //         res = '班长';
-                        //         break;
-                        // }
                         return processC(d.process);
                     }
                 }
@@ -118,7 +93,8 @@
                             return '停用';
                         }
                     }
-                }, {title: '操作', align: 'center', toolbar: '#equipment_table_tool'} //这里的toolbar值是模板元素的选择器
+                }, {field: 'lastchecktime', title: '上次检修时间', sort: true}
+                , {title: '操作', align: 'center', toolbar: '#equipment_table_tool'} //这里的toolbar值是模板元素的选择器
             ]],
             parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                 var result;
@@ -190,7 +166,7 @@
             } else if (layEvent === 'edit') { //编辑
                 //do something
                 console.log(data);
-                var url = 'uuid=' + data.uuid + '&name=' + encodeURI(data.name) + '&process=' + data.process + '&status=' + data.status;
+                var url = 'uuid=' + data.uuid;
                 xadmin.open('修改设备', './equipment-edit.html?' + url, 600, 500);
 
             } else if (layEvent === 'LAYTABLE_TIPS') {

@@ -22,6 +22,10 @@ public class Equipment extends Model<Equipment> {
 
     private String status;
 
+    private String lastchecktime;
+
+    private String checkrecord;
+
 
     public String getUuid() {
         return uuid;
@@ -53,6 +57,22 @@ public class Equipment extends Model<Equipment> {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLastchecktime() {
+        return lastchecktime;
+    }
+
+    public void setLastchecktime(String lastchecktime) {
+        this.lastchecktime = lastchecktime;
+    }
+
+    public String getCheckrecord() {
+        return checkrecord;
+    }
+
+    public void setCheckrecord(String checkrecord) {
+        this.checkrecord = checkrecord;
     }
 
     /**

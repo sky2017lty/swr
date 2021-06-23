@@ -17,4 +17,6 @@ public interface ToolService {
     String delTool(HttpServletRequest request);
 
     String toolSearch(HttpServletRequest request);
+
+    String getOneTool(HttpServletRequest request);
 }

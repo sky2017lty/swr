@@ -67,6 +67,8 @@ public class ToolServiceImpl implements ToolService {
         String detail = request.getParameter("tool_detail");
         String number = request.getParameter("tool_number");
         String status = request.getParameter("tool_status");
+        String lastchecktime = request.getParameter("tool_lastchecktime");
+        String checkrecord = request.getParameter("tool_checkrecord");
         Tool one = toolDao.selectOne(new QueryWrapper<Tool>()
                 .eq("uuid", uuid));
         if (one == null) {
@@ -79,6 +81,8 @@ public class ToolServiceImpl implements ToolService {
         tool.setProcess(process);
         tool.setNum(number);
         tool.setStatus(status);
+        tool.setLastchecktime(lastchecktime);
+        tool.setCheckrecord(checkrecord);
         int flag = toolDao.updateById(tool);
         if (1 == flag) {
             return JsonUtils.getInstance().formatLayerJson(0, "success", null);
@@ -103,5 +107,13 @@ public class ToolServiceImpl implements ToolService {
         String name = request.getParameter("tool_name");
         List<Tool> toolList = toolDao.selectList(new QueryWrapper<Tool>().like("name", name));
         return JsonUtils.getInstance().formatLayerJson(0, "success", toolList.size(), JSON.toJSONString(toolList));
+    }
+
+    @Override
+    public String getOneTool(HttpServletRequest request) {
+        String uuid = request.getParameter("uuid");
+        Tool one = toolDao.selectOne(new QueryWrapper<Tool>()
+                .eq("uuid", uuid));
+        return JSON.toJSONString(one);
     }
 }

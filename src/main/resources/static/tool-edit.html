@@ -20,13 +20,22 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+<style type="text/css">
+    .comments {
+        width: 100%; /*自动适应父布局宽度*/
+        overflow: auto;
+        word-break: break-all;
+        /*在ie中解决断行问题(防止自动变为在一行显示，主要解决ie兼容问题，ie8中当设宽度为100%时，文本域类容超过一行时，
+        当我们双击文本内容就会自动变为一行显示，所以只能用ie的专有断行属性“word-break或word-wrap”控制其断行)*/
+    }
+</style>
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form" id="tool_form">
             <div class="layui-form-item">
                 <label for="tool_name" class="layui-form-label">
-                    <span class="x-red">*</span>设备名</label>
+                    <span class="x-red">*</span>工具名</label>
                 <div class="layui-input-inline">
                     <input type="hidden" id="tool_uuid" name="tool_uuid"/>
                     <input type="text" id="tool_name" name="tool_name" required="" lay-verify="name"
@@ -71,9 +80,32 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">是否启用</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="tool_status" value="0" title="启用">
-                    <input type="radio" name="tool_status" value="1" title="停用">
+                    <div class="layui-input-inline">
+                        <select id="tool_status" name="tool_status" lay-verify="status">
+                            <option value="0">启用</option>
+                            <option value="1">停用</option>
+                        </select></div>
+                    <!--<input type="radio" name="tool_status" value="0" title="启用">
+                    <input type="radio" name="tool_status" value="1" title="停用">-->
                 </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="tool_name" class="layui-form-label">上次维护时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="tool_lastchecktime" name="tool_lastchecktime" required="" lay-verify="name"
+                           autocomplete="off"
+                           class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="tool_checkrecord" class="layui-form-label">维护记录</label>
+                <div class="layui-input-inline">
+                    <textarea type="text" id="tool_checkrecord" name="tool_checkrecord" required=""
+                              lay-verify="name" autocomplete="off"
+                              style="min-height: 450px; min-width: 350px;"
+                              class="layui-input comments"></textarea></div>
+                <!--                <div class="layui-form-mid layui-word-aux">-->
+                <!--                    <span class="x-red">*</span>将会成为您唯一的登入名-->
+                <!--                </div>-->
             </div>
             <div class="layui-form-item">
                 <label for="tool_process" class="layui-form-label"></label>
@@ -83,25 +115,37 @@
     </div>
 </div>
 <script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#tool_lastchecktime' //指定元素
+        });
+
+    });
+
     window.onload = function () {
         var uuid = getUrlVariable("uuid");
-        var name = getUrlVariable("name");
-        var decordName = decodeURI(name);
-        var process = getUrlVariable("process");
-        var status = getUrlVariable("status");
-        var detail = getUrlVariable("detail");
-        var decordDetail = decodeURI(detail);
-        var number = getUrlVariable("number");
-        $("#tool_uuid").attr("value", uuid);
-        $("#tool_name").attr("value", decordName);
-        $("#tool_detail").attr("value", decordDetail);
-        $("#tool_number").attr("value", number);
-        set_select_checked("tool_process", process);
-        $(":radio[name='tool_status'][value='" + status + "']").prop("checked", "checked");
-        if (location.href.indexOf("#reloaded") == -1) {
-            location.href = location.href + "#reloaded";
-            location.reload();
-        }
+        $.ajax({
+            type: "get",
+            url: "/getOneTool",
+            data: {
+                uuid: uuid
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#tool_uuid").attr("value", data.uuid);
+                $("#tool_name").attr("value", data.name);
+                $("#tool_detail").attr("value", data.detail);
+                $("#tool_number").attr("value", data.num);
+                $("#tool_lastchecktime").attr("value", data.lastchecktime);
+                $("#tool_checkrecord").val(data.checkrecord);
+                set_select_checked("tool_process", data.process);
+                set_select_checked("tool_status", data.status);
+                renderForm();
+            }
+        });
     };
 
     layui.use(['form', 'layer', 'jquery'],

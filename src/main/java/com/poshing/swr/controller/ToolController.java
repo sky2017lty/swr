@@ -32,6 +32,17 @@ public class ToolController {
     }
 
     /**
+     * 获取所有工具
+     * @param request
+     * @return
+     */
+    @GetMapping("/getOneTool")
+    @ResponseBody
+    public String getOneTool(HttpServletRequest request) {
+        return toolService.getOneTool(request);
+    }
+
+    /**
      * 添加
      * @param request
      * @return
