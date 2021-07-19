@@ -20,6 +20,19 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+<style>
+    body{
+        width: 21cm;
+        height: 29.7cm;
+        /* change the margins as you want them to be. */
+    }
+    @media print
+    {
+        div{
+            page-break-inside: avoid;
+        }
+    }
+</style>
 <body>
 <div class="layui-fluid" id="print-area">
     <div class="layui-row layui-col-space10">
@@ -266,11 +279,8 @@
     };
 
     $("#Print").click(function () {
-        var search = window.location.search;
-        var wind = window.open("monitor-record-print.html" + search);
-        setTimeout(function () {
-            wind.print();
-        }, 1000);
+        window.print();
+        // $('#print-area').printArea();
     });
 
 

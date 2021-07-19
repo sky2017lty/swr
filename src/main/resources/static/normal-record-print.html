@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
+
 <head>
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.2</title>
@@ -20,15 +21,25 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+<style>
+    body{
+        width: 21cm;
+        height: 29.7cm;
+        /* change the margins as you want them to be. */
+    }
+    @media print
+    {
+        div{
+            page-break-inside: avoid;
+        }
+    }
+</style>
 <body>
-<div class="layui-fluid" id="print-area">
+<div class="layui-fluid">
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">记录信息
-                    <button id="Print" class="layui-btn layui-btn-xs noprint" style="float:right;margin-top: 5px;">打印
-                    </button>
-                </div>
+                <div class="layui-card-header">记录信息</div>
                 <div class="layui-card-body ">
                     <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                         <li class="layui-col-md3 layui-col-xs6">
@@ -103,9 +114,9 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">目检重点事项</div>
+                <div class="layui-card-header">不合格情况</div>
                 <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterMj">
+                    <div class="layui-card-header divstyle" id="unQualified">
 
                     </div>
                 </div>
@@ -115,93 +126,9 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">厚度重点事项</div>
+                <div class="layui-card-header">当班注意事项</div>
                 <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterHd">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">电阻率重点事项</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterDzl">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">平整度重点事项</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterPzd">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">颗粒重点事项</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterKl">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">腐蚀重点事项</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterFs">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">SRP、SPV重点事项</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterSrpspv">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">报警片重点事项</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="importantmatterBj">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-row layui-col-space10">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">安全隐患</div>
-                <div class="layui-card-body ">
-                    <div class="layui-card-header divstyle" id="safe">
+                    <div class="layui-card-header divstyle" id="importantMatter_Now">
 
                     </div>
                 </div>
@@ -213,7 +140,7 @@
             <div class="layui-card">
                 <div class="layui-card-header">异常情况</div>
                 <div class="layui-card-body ">
-                    <table class="layui-table" id="unQualified_table"></table>
+                    <table class="layui-table" id="unQualified_record_table"></table>
                 </div>
             </div>
         </div>
@@ -221,9 +148,19 @@
     <div class="layui-row layui-col-space10">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">暂停情况</div>
+                <div class="layui-card-header">设备情况</div>
                 <div class="layui-card-body ">
-                    <table class="layui-table" id="pause_record_table"></table>
+                    <table class="layui-table" id="equipment_record_table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">工具情况</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table" id="tool_record_table"></table>
                 </div>
             </div>
         </div>
@@ -232,9 +169,10 @@
 <script>
     window.onload = function () {
         var uuid = getUrlVariable("uuid");
-        getImportantMatter_long("Monitor");
+        var process = getUrlVariable("process");
+        getImportantMatter_long(process);
         $.ajax({
-            url: "/getMonitorRecord",    //请求的url地址
+            url: "/getRecord",    //请求的url地址
             dataType: "json",   //返回格式为json
             data: {
                 "uuid": uuid
@@ -251,28 +189,12 @@
                 $("#endShift").text(req.endshift);
                 $("#startShift").text(req.startshift);
                 $("#fileUpdate").text(req.fileupdate);
+                $("#unQualified").text(req.unqualified);
                 $("#importantMatter").text(req.importantmatter);
-                $("#importantmatterMj").text(req.importantmatterMj);
-                $("#importantmatterHd").text(req.importantmatterHd);
-                $("#importantmatterDzl").text(req.importantmatterDzl);
-                $("#importantmatterPzd").text(req.importantmatterPzd);
-                $("#importantmatterKl").text(req.importantmatterKl);
-                $("#importantmatterFs").text(req.importantmatterFs);
-                $("#importantmatterSrpspv").text(req.importantmatterSrpspv);
-                $("#importantmatterBj").text(req.importantmatterBj);
-                $("#safe").text(req.safe);
+                $("#importantMatter_Now").text(req.importantmatterNow);
             }
         });
     };
-
-    $("#Print").click(function () {
-        var search = window.location.search;
-        var wind = window.open("monitor-record-print.html" + search);
-        setTimeout(function () {
-            wind.print();
-        }, 1000);
-    });
-
 
     layui.use(['form', 'layer', 'jquery', 'table', 'laydate'], function () {
         $ = layui.jquery;
@@ -284,45 +206,58 @@
         var process = getUrlVariable("process");
         var date = getUrlVariable("date");
         var workingShift = getUrlVariable("workingShift");
-        var url = "?workShiftDate=" + date +
+        var url = "?process=" + process +
+            "&workShiftDate=" + date +
             "&workingShift=" + workingShift;
-        var pauseUrl = "/getPauseRecord" + url;
+        var equipmentUrl = "/getEquipmentRecord" + url;
+        var toolUrl = "/getToolRecord" + url;
+        var recordByTime = getRecordByTime();
 
         table.render({
-            elem: '#pause_record_table'
-            , url: pauseUrl //数据接口
+            elem: '#unQualified_record_table'
+            , url: '/getUnQualifiedRecordNow'
+            , where: {
+                process: process,
+                workShiftDate: date,
+                workingShift: workingShift
+            }
+            , id: 'unQualified_record_table'
+            // , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , cols: [[ //表头
-                {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
-                {
-                    field: 'pauselevel', width: 120, title: '叫停等级', sort: true,
-                    templet: function (d) {
-                        return d.pauselevel == 1 ? "最高级" : "一般";
-                    }
-                },
-                {field: 'detail', title: '叫停描述'}
+                {field: 'uuid', width: 90, title: 'UUID', hide: true},
+                {field: 'furnace', width: 90, title: '炉腔'},
+                {field: 'exception', title: '异常描述'},
+                {field: 'subsequent', title: '后继进展'}
             ]]
         });
 
         table.render({
-            elem: '#unQualified_table'
-            , url: '/getUnQualifiedRecordNow'
-            , where: {
-                process: "",
-                workShiftDate: date,
-                workingShift: workingShift
-            }
-            , id: 'unQualified_table'
-            // , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            elem: '#equipment_record_table'
+            , url: equipmentUrl //数据接口
             , cols: [[ //表头
-                {field: 'uuid', width: 90, title: 'UUID', hide: true},
+                {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
+                {field: 'name', title: '设备情况', sort: true},
+                {field: 'faultstarttime', title: '当班故障起始时间'},
+                {field: 'faultendtime', title: '当班故障结束时间'},
+                {field: 'expression', title: '现象'},
+                {field: 'step', title: '措施'},
+                {field: 'maintainer', title: '维修人'}
+            ]]
+        });
+
+
+        table.render({
+            elem: '#tool_record_table'
+            , url: toolUrl //数据接口
+            , cols: [[ //表头
+                {field: 'uuid', title: 'uuid', fixed: 'left', hide: true},
                 {
-                    field: 'process', width: 90, title: '工序', sort: true, templet: function (d) {
-                        return processC(d.process);
+                    field: 'name', title: '工具情况', templet: function (d) {
+                        return d.name + " " + d.detail;
                     }
                 },
-                {field: 'furnace', width: 90, title: '炉腔'},
-                {field: 'exception', title: '异常描述'},
-                {field: 'subsequent', title: '后继进展'}
+                {field: 'number', title: '数量'},
+                {field: 'details', title: '工具情况'}
             ]]
         });
     });
