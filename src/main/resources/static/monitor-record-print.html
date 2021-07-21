@@ -24,12 +24,18 @@
     body{
         width: 21cm;
         height: 29.7cm;
+        margin: 0mm;
         /* change the margins as you want them to be. */
     }
     @media print
     {
         div{
             page-break-inside: avoid;
+        }
+
+        @page {
+            size: auto;
+            margin: 0mm;
         }
     }
 </style>
