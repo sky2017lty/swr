@@ -247,12 +247,14 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         if (process.isEmpty()) {
             selectList = unqualifiedDao.selectList(new QueryWrapper<Unqualified>()
                     .eq("workingshiftdate", workShiftDate)
-                    .eq("workingshift", workingShift));
+                    .eq("workingshift", workingShift)
+                    .orderByDesc("process"));
         } else {
             selectList = unqualifiedDao.selectList(new QueryWrapper<Unqualified>()
                     .eq("workingshiftdate", workShiftDate)
                     .eq("workingshift", workingShift)
-                    .eq("process", process));
+                    .eq("process", process)
+                    .orderByDesc("process"));
         }
         JSONArray jsonArray = new JSONArray();
         for (Unqualified unqualified : selectList) {
