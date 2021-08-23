@@ -112,9 +112,9 @@
             , page: true //开启分页
             , cols: [[
                 {field: 'uuid', title: 'ID', hide: true},
-                {field: 'workingshiftdate', title: '日期', sort: true},
+                {field: 'workingshiftdate', title: '日期', width: '15%', sort: true},
                 {
-                    field: 'workingshift', title: '班次', templet: function (d) {
+                    field: 'workingshift', title: '班次', width: '15%', templet: function (d) {
                         if (d.workingshift == 0) {
                             return '白班';
                         } else {
@@ -124,7 +124,7 @@
                 },
                 {field: 'endshift', title: '交班人'},
                 {field: 'startshift', title: '接班人'},
-                {title: '操作', align: 'center', toolbar: '#visual_inspection_table_toolbar'} //这里的toolbar值是模板元素的选择器
+                {title: '操作', align: 'center', width: '15%', toolbar: '#visual_inspection_table_toolbar'} //这里的toolbar值是模板元素的选择器
             ]],
             parseData: function (res) { //将原始数据解析成 table 组件所规定的数据，res为从url中get到的数据
                 var result;
@@ -195,21 +195,21 @@
 
                 });
 
-               /* layer.confirm('确认删除' + data.workingshiftdate + workingShift + '的记录吗?', function (index) {
-                    //向服务端发送删除指令
-                    $.ajax({
-                        url: "/deleteRecord",    //请求的url地址
-                        dataType: "json",   //返回格式为json
-                        data: data,    //参数值
-                        type: "GET",   //请求方式
-                        success: function (req) {
-                            //请求成功时处理
-                            layer.msg('已经删除' + data.workingshiftdate + workingShift + '的记录');
-                        }
-                    });
-                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                    layer.close(index);
-                });*/
+                /* layer.confirm('确认删除' + data.workingshiftdate + workingShift + '的记录吗?', function (index) {
+                     //向服务端发送删除指令
+                     $.ajax({
+                         url: "/deleteRecord",    //请求的url地址
+                         dataType: "json",   //返回格式为json
+                         data: data,    //参数值
+                         type: "GET",   //请求方式
+                         success: function (req) {
+                             //请求成功时处理
+                             layer.msg('已经删除' + data.workingshiftdate + workingShift + '的记录');
+                         }
+                     });
+                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                     layer.close(index);
+                 });*/
             } else if (layEvent === 'LAYTABLE_TIPS') {
                 layer.alert('Hi，头部工具栏扩展的右侧图标。');
             }
