@@ -415,6 +415,7 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
             json.put("checkdata", checkdayRecord.getCheckdata());
             json.put("CheckDayUUID", checkdayRecord.getCheckdayUuid());
             json.put("ischeck", checkdayRecord.getIscheck());
+            json.put("detail", checkdayRecord.getDetail());
             json.put("checkperson", checkdayRecord.getCheckperson());
             jsonArray.add(json);
         }
@@ -440,6 +441,7 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         String checkdata = request.getParameter("checkdata");
         String ischeck = request.getParameter("ischeck");
         String checkperson = request.getParameter("checkperson");
+        String detail = request.getParameter("detail");
         CheckdayRecord one = checkdayRecordDao.selectOne(new QueryWrapper<CheckdayRecord>().eq("uuid", uuid));
         Checkday checkday = checkdayDao.selectOne(new QueryWrapper<Checkday>().eq("uuid", one.getCheckdayUuid()));
         if (checkday == null) {
@@ -448,6 +450,7 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         one.setCheckperson(checkperson);
         one.setIscheck(ischeck);
         one.setCheckdata(checkdata);
+        one.setDetail(detail);
         checkday.setCheckdata(checkdata);
         int flag = checkdayRecordDao.updateById(one);
         int flag1 = checkdayDao.updateById(checkday);

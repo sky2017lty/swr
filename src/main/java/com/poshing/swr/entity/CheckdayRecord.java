@@ -3,8 +3,6 @@ package com.poshing.swr.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
-import java.io.Serializable;
-
 /**
  * (CheckdayRecord)实体类
  *
@@ -15,20 +13,22 @@ public class CheckdayRecord extends Model<CheckdayRecord> {
 
     @TableId
     private String uuid;
-    
+
     private String checkdayUuid;
 
     private String checkdata;
 
     private String workshiftdate;
-    
+
     private String workingshift;
-    
+
     private String process;
-    
+
     private String ischeck;
-    
+
     private String checkperson;
+
+    private String detail;
 
 
     public String getUuid() {
@@ -93,5 +93,28 @@ public class CheckdayRecord extends Model<CheckdayRecord> {
 
     public void setCheckdata(String checkdata) {
         this.checkdata = checkdata;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckdayRecord{" +
+                "uuid='" + uuid + '\'' +
+                ", checkdayUuid='" + checkdayUuid + '\'' +
+                ", checkdata='" + checkdata + '\'' +
+                ", workshiftdate='" + workshiftdate + '\'' +
+                ", workingshift='" + workingshift + '\'' +
+                ", process='" + process + '\'' +
+                ", ischeck='" + ischeck + '\'' +
+                ", checkperson='" + checkperson + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
     }
 }

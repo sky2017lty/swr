@@ -318,13 +318,14 @@
             , cols: [[ //表头
                 {field: 'uuid', width: 90, title: 'UUID', hide: true},
                 {field: 'CheckDayUUID', width: 90, title: 'CheckDayUUID', hide: true},
-                {field: 'checkdata', title: '每班检查项'},
+                {field: 'checkdata', title: '每班检查项', width: '40%'},
                 {
-                    field: 'ischeck', title: '是否核实', width: 100, templet: function (d) {
+                    field: 'ischeck', title: '是否核实', width: '10%', templet: function (d) {
                         return d.ischeck == 1 ? "已核对" : "未核对";
                     }
                 },
-                {field: 'checkperson', title: '核实人', width: 100}
+                {field: 'detail', title: '核实内容', width: '40%'},
+                {field: 'checkperson', title: '核实人', width: '10%'}
             ]]
         });
     });

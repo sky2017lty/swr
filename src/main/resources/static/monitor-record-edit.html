@@ -440,10 +440,11 @@
             , cols: [[ //表头
                 {field: 'uuid', width: 90, title: 'UUID', hide: true},
                 {field: 'CheckDayUUID', width: 90, title: 'CheckDayUUID', hide: true},
-                {field: 'checkdata', title: '每班检查项', edit: 'text'},
-                {field: 'ischeck', title: '是否核实', width: 100, templet: "#switchCheck"},
-                {field: 'checkperson', title: '核实人', width: 100, edit: 'text'},
-                {title: '操作', width: 100, align: 'center', toolbar: '#checkday_table_tool'}
+                {field: 'checkdata', title: '每班检查项', edit: 'text', width: '35%'},
+                {field: 'ischeck', title: '是否核实', width: '10%', templet: "#switchCheck"},
+                {field: 'detail', title: '核实内容', width: '35%', edit: 'text'},
+                {field: 'checkperson', title: '核实人', width: '10%', edit: 'text'},
+                {title: '操作', width: '10%', align: 'center', toolbar: '#checkday_table_tool'}
             ]]
         });
 
