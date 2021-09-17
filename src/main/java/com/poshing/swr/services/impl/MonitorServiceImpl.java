@@ -4,15 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.poshing.swr.dao.LongRecordDao;
-import com.poshing.swr.dao.MonitorRecordDao;
-import com.poshing.swr.dao.PauseRecordDao;
+import com.poshing.swr.dao.*;
+import com.poshing.swr.entity.CheckdayRecord;
 import com.poshing.swr.entity.LongRecord;
 import com.poshing.swr.entity.MonitorRecord;
 import com.poshing.swr.entity.PauseRecord;
 import com.poshing.swr.services.MonitorService;
 import com.poshing.swr.utils.DateUtils;
 import com.poshing.swr.utils.JsonUtils;
+import com.poshing.swr.utils.Utils;
 import com.poshing.swr.utils.UuidUtil;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +36,12 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Resource
     private LongRecordDao longRecordDao;
+
+    @Resource
+    private CheckdayRecordDao checkdayRecordDao;
+
+    @Resource
+    private CheckdayDao checkdayDao;
 
     @Override
     public String insertPauseRecord(HttpServletRequest request) {
@@ -112,6 +118,18 @@ public class MonitorServiceImpl implements MonitorService {
                 .eq("workingshift", workingshift));
         LongRecord longRecord = longRecordDao.selectOne(new QueryWrapper<LongRecord>()
                 .eq("process", "Monitor"));
+        List<CheckdayRecord> selectList = checkdayRecordDao.selectList(new QueryWrapper<CheckdayRecord>()
+                .eq("workshiftdate", date)
+                .eq("workingShift", workingshift)
+                .eq("process", "Monitor"));
+        for (CheckdayRecord checkdayRecord : selectList) {
+            if (!"1".equals(checkdayRecord.getIscheck())) {
+                return JsonUtils.getInstance().formatLayerJson(200, "每日检查项未全部核对");
+            }
+            if (Utils.isNull(checkdayRecord.getCheckperson())) {
+                return JsonUtils.getInstance().formatLayerJson(200, "核实人未全部填写");
+            }
+        }
         if (one != null) {
             one.setWorkingshiftdate(date);
             one.setWorkingshift(workingshift);

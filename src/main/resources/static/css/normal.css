@@ -24,11 +24,15 @@
 
 @media print {
 
-    .noprint{
+    .noprint {
         display: none;
     }
 
-    .pagebreak{ page-break-after:always;  } /*分页控制 */
+    .pagebreak {
+        page-break-after: always;
+    }
+
+    /*分页控制 */
 
 }
 
@@ -44,8 +48,12 @@
     color: #0C0C0C;
 }
 
+.layui-table-body .layui-none {
+    background-color: #FFFFFF;
+}
+
 /*div换行*/
-.divstyle{
-    display:inline-block;
-    white-space:pre-wrap;
+.divstyle {
+    display: inline-block;
+    white-space: pre-wrap;
 }

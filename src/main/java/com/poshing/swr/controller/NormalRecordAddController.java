@@ -104,4 +104,34 @@ public class NormalRecordAddController {
     public String updateUnQualifiedRecord(HttpServletRequest request) {
         return normalRecordAddService.updateUnQualifiedRecord(request);
     }
+
+    @GetMapping("/insertCheckDayRecord")
+    @ResponseBody
+    public String insertCheckDayRecord(HttpServletRequest request) {
+        return normalRecordAddService.insertCheckDayRecord(request);
+    }
+
+    @GetMapping("/createCheckDayRecord")
+    @ResponseBody
+    public String createCheckDayRecord(HttpServletRequest request) {
+        return normalRecordAddService.createCheckDayRecord(request);
+    }
+
+    @GetMapping("/getCheckDayRecord")
+    @ResponseBody
+    public String getCheckDayRecord(HttpServletRequest request) {
+        return normalRecordAddService.getCheckDayRecord(request);
+    }
+
+    @GetMapping("/delCheckDayRecord")
+    @ResponseBody
+    public String delCheckDayRecord(HttpServletRequest request) {
+        return normalRecordAddService.delCheckDayRecord(request);
+    }
+
+    @GetMapping("/updateCheckDayRecord")
+    @ResponseBody
+    public String updateCheckDayRecord(HttpServletRequest request) {
+        return normalRecordAddService.updateCheckDayRecord(request);
+    }
 }

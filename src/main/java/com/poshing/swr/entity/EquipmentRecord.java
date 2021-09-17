@@ -131,7 +131,7 @@ public class EquipmentRecord extends Model<EquipmentRecord> {
      * @return 主键值
      */
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.uuid;
     }
 }

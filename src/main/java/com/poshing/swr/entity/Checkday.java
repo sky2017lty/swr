@@ -6,19 +6,23 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
 /**
- * (LongRecord)表实体类
+ * (Checkday)实体类
  *
- * @author LiTianyi
- * @since 2021-03-08 19:18:25
+ * @author makejava
+ * @since 2021-09-11 14:37:20
  */
-public class LongRecord extends Model<LongRecord> {
+public class Checkday extends Model<Checkday> {
 
     @TableId
     private String uuid;
-
+    /**
+     * 工序
+     */
     private String process;
-
-    private String details;
+    /**
+     * 检查项目
+     */
+    private String checkdata;
 
 
     public String getUuid() {
@@ -37,21 +41,12 @@ public class LongRecord extends Model<LongRecord> {
         this.process = process;
     }
 
-    public String getDetails() {
-        return details;
+    public String getCheckdata() {
+        return checkdata;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setCheckdata(String checkdata) {
+        this.checkdata = checkdata;
     }
 
-    /**
-     * 获取主键值
-     *
-     * @return 主键值
-     */
-    @Override
-    public Serializable pkVal() {
-        return this.uuid;
-    }
 }

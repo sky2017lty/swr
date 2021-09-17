@@ -41,7 +41,7 @@ public class Process extends Model<Process> {
      * @return 主键值
      */
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.uuid;
     }
 }

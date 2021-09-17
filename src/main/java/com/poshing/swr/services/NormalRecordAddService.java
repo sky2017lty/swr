@@ -25,4 +25,14 @@ public interface NormalRecordAddService {
     String deleteUnQualifiedRecord(HttpServletRequest request);
 
     String updateUnQualifiedRecord(HttpServletRequest request);
+
+    String insertCheckDayRecord(HttpServletRequest request);
+
+    String createCheckDayRecord(HttpServletRequest request);
+
+    String getCheckDayRecord(HttpServletRequest request);
+
+    String delCheckDayRecord(HttpServletRequest request);
+
+    String updateCheckDayRecord(HttpServletRequest request);
 }

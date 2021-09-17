@@ -264,3 +264,35 @@ function processC(process) {
             return "班长";
     }
 }
+
+function createCheckDayRecord(process, workShiftDate, workingShift) {
+    $.ajax({
+        url: "/createCheckDayRecord",    //请求的url地址
+        dataType: "json",   //返回格式为json
+        data: {
+            "process": process,
+            "workShiftDate": workShiftDate,
+            "workingShift": workingShift
+        },    //参数值
+        type: "GET",   //请求方式
+        success: function (req) {
+
+        }
+    });
+}
+
+function loadCheckDayRecord(process, workShiftDate, workingShift) {
+    $.ajax({
+        url: "/getCheckDayRecord",    //请求的url地址
+        dataType: "json",   //返回格式为json
+        data: {
+            "process": process,
+            "workShiftDate": workShiftDate,
+            "workingShift": workingShift
+        },    //参数值
+        type: "GET",   //请求方式
+        success: function (req) {
+
+        }
+    });
+}

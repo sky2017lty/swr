@@ -81,7 +81,7 @@ public class Equipment extends Model<Equipment> {
      * @return 主键值
      */
     @Override
-    protected Serializable pkVal() {
+    public Serializable pkVal() {
         return this.uuid;
     }
 }

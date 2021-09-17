@@ -9,6 +9,7 @@ import com.poshing.swr.entity.*;
 import com.poshing.swr.entity.Record;
 import com.poshing.swr.services.NormalRecordAddService;
 import com.poshing.swr.utils.JsonUtils;
+import com.poshing.swr.utils.Utils;
 import com.poshing.swr.utils.UuidUtil;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,12 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
 
     @Resource
     private UnqualifiedDao unqualifiedDao;
+
+    @Resource
+    private CheckdayRecordDao checkdayRecordDao;
+
+    @Resource
+    private CheckdayDao checkdayDao;
 
     @Override
     public String insertEquipmentRecord(HttpServletRequest request) {
@@ -125,6 +132,18 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
                 .eq("process", process));
         LongRecord longRecord = longRecordDao.selectOne(new QueryWrapper<LongRecord>()
                 .eq("process", process));
+        List<CheckdayRecord> selectList = checkdayRecordDao.selectList(new QueryWrapper<CheckdayRecord>()
+                .eq("workshiftdate", date)
+                .eq("workingShift", workingShift)
+                .eq("process", process));
+        for (CheckdayRecord checkdayRecord : selectList) {
+            if (!"1".equals(checkdayRecord.getIscheck())) {
+                return JsonUtils.getInstance().formatLayerJson(200, "每日检查项未全部核对");
+            }
+            if (Utils.isNull(checkdayRecord.getCheckperson())) {
+                return JsonUtils.getInstance().formatLayerJson(200, "核实人未全部填写");
+            }
+        }
         if (one != null) {
             one.setWorkingshiftdate(date);
             one.setWorkingshift(workingShift);
@@ -315,6 +334,108 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         one.setException(exception);
         one.setSubsequent(subsequent);
         int flag = unqualifiedDao.updateById(one);
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String insertCheckDayRecord(HttpServletRequest request) {
+        String workShiftDate = request.getParameter("date");
+        String workingShift = request.getParameter("workingShift");
+        String checkData = request.getParameter("checkData");
+        String process = request.getParameter("process");
+        Checkday checkday = new Checkday();
+        CheckdayRecord checkdayRecord = new CheckdayRecord();
+        checkday.setUuid(UuidUtil.getUuid());
+        checkday.setProcess(process);
+        checkday.setCheckdata(checkData);
+        checkdayRecord.setUuid(UuidUtil.getUuid());
+        checkdayRecord.setWorkshiftdate(workShiftDate);
+        checkdayRecord.setWorkingshift(workingShift);
+        checkdayRecord.setProcess(process);
+        checkdayRecord.setCheckdayUuid(checkday.getUuid());
+        checkdayRecord.setCheckdata(checkday.getCheckdata());
+        int flag = checkdayDao.insert(checkday);
+        checkdayRecordDao.insert(checkdayRecord);
+        if (1 == flag) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(checkday));
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String createCheckDayRecord(HttpServletRequest request) {
+        String workShiftDate = request.getParameter("workShiftDate");
+        String workingShift = request.getParameter("workingShift");
+        String process = request.getParameter("process");
+        List<Checkday> selectList = checkdayDao.selectList(new QueryWrapper<Checkday>().eq("process", process));
+        for (Checkday checkday : selectList) {
+            CheckdayRecord checkdayRecord = new CheckdayRecord();
+            checkdayRecord.setUuid(UuidUtil.getUuid());
+            checkdayRecord.setWorkshiftdate(workShiftDate);
+            checkdayRecord.setWorkingshift(workingShift);
+            checkdayRecord.setProcess(process);
+            checkdayRecord.setCheckdayUuid(checkday.getUuid());
+            checkdayRecord.setCheckdata(checkday.getCheckdata());
+            checkdayRecordDao.insert(checkdayRecord);
+        }
+        return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+    }
+
+    @Override
+    public String getCheckDayRecord(HttpServletRequest request) {
+        String workShiftDate = request.getParameter("workShiftDate");
+        String workingShift = request.getParameter("workingShift");
+        String process = request.getParameter("process");
+        List<CheckdayRecord> selectList = checkdayRecordDao.selectList(new QueryWrapper<CheckdayRecord>()
+                .eq("process", process)
+                .eq("workShiftDate", workShiftDate)
+                .eq("workingShift", workingShift));
+        JSONArray jsonArray = new JSONArray();
+        for (CheckdayRecord checkdayRecord : selectList) {
+            JSONObject json = new JSONObject();
+            json.put("uuid", checkdayRecord.getUuid());
+            json.put("process", checkdayRecord.getProcess());
+            json.put("checkdata", checkdayRecord.getCheckdata());
+            json.put("CheckDayUUID", checkdayRecord.getCheckdayUuid());
+            json.put("ischeck", checkdayRecord.getIscheck());
+            json.put("checkperson", checkdayRecord.getCheckperson());
+            jsonArray.add(json);
+        }
+        return JsonUtils.getInstance().formatLayerJson(0, "success", jsonArray);
+    }
+
+    @Override
+    public String delCheckDayRecord(HttpServletRequest request) {
+        String uuid = request.getParameter("uuid");
+        String checkDayUUID = request.getParameter("CheckDayUUID");
+        int flag = checkdayDao.delete(new QueryWrapper<Checkday>().eq("uuid", checkDayUUID));
+        int i = checkdayRecordDao.delete(new QueryWrapper<CheckdayRecord>().eq("uuid", uuid));
+        if (1 == flag && 1 == i) {
+            return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
+        }
+    }
+
+    @Override
+    public String updateCheckDayRecord(HttpServletRequest request) {
+        String uuid = request.getParameter("uuid");
+        String checkdata = request.getParameter("checkdata");
+        String ischeck = request.getParameter("ischeck");
+        String checkperson = request.getParameter("checkperson");
+        CheckdayRecord one = checkdayRecordDao.selectOne(new QueryWrapper<CheckdayRecord>().eq("uuid", uuid));
+        if (one == null) {
+            return JsonUtils.getInstance().formatLayerJson(300, "找不到记录", null);
+        }
+        one.setCheckperson(checkperson);
+        one.setIscheck(ischeck);
+        one.setCheckdata(checkdata);
+        int flag = checkdayRecordDao.updateById(one);
         if (1 == flag) {
             return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
         } else {

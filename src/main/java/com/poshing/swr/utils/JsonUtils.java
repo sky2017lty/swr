@@ -1,14 +1,12 @@
 package com.poshing.swr.utils;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 /**
- * @author: LiTianyi
- * @Date: 2021/2/21 0021 12:34
- * @Description
+ * @author litianyi
  */
 public class JsonUtils {
-
     private static final JsonUtils INSTANCE = new JsonUtils();
 
     private JsonUtils() {
@@ -41,5 +39,12 @@ public class JsonUtils {
                     "\"msg\": \"" + msg + "\"\n" +
                     "} ";
         }
+    }
+
+    public String formatLayerJson(int code, String msg) {
+        JSONObject json = new JSONObject();
+        json.put("code", code);
+        json.put("msg", msg);
+        return json.toJSONString();
     }
 }
