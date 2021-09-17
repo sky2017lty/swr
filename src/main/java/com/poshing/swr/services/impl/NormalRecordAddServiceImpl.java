@@ -11,6 +11,8 @@ import com.poshing.swr.services.NormalRecordAddService;
 import com.poshing.swr.utils.JsonUtils;
 import com.poshing.swr.utils.Utils;
 import com.poshing.swr.utils.UuidUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +27,8 @@ import java.util.List;
  */
 @Service
 public class NormalRecordAddServiceImpl implements NormalRecordAddService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NormalRecordAddServiceImpl.class);
 
     @Resource
     private EquipmentRecordDao equipmentRecordDao;
@@ -372,18 +376,26 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         String workShiftDate = request.getParameter("workShiftDate");
         String workingShift = request.getParameter("workingShift");
         String process = request.getParameter("process");
-        List<Checkday> selectList = checkdayDao.selectList(new QueryWrapper<Checkday>().eq("process", process));
-        for (Checkday checkday : selectList) {
-            CheckdayRecord checkdayRecord = new CheckdayRecord();
-            checkdayRecord.setUuid(UuidUtil.getUuid());
-            checkdayRecord.setWorkshiftdate(workShiftDate);
-            checkdayRecord.setWorkingshift(workingShift);
-            checkdayRecord.setProcess(process);
-            checkdayRecord.setCheckdayUuid(checkday.getUuid());
-            checkdayRecord.setCheckdata(checkday.getCheckdata());
-            checkdayRecordDao.insert(checkdayRecord);
+        List<Checkday> checkdays = checkdayDao.selectList(new QueryWrapper<Checkday>().eq("process", process));
+        List<CheckdayRecord> checkdayRecords = checkdayRecordDao.selectList(new QueryWrapper<CheckdayRecord>()
+                .eq("process", process)
+                .eq("workShiftDate", workShiftDate)
+                .eq("workingShift", workingShift));
+        if (checkdayRecords.size() == 0) {
+            for (Checkday checkday : checkdays) {
+                CheckdayRecord checkdayRecord = new CheckdayRecord();
+                checkdayRecord.setUuid(UuidUtil.getUuid());
+                checkdayRecord.setWorkshiftdate(workShiftDate);
+                checkdayRecord.setWorkingshift(workingShift);
+                checkdayRecord.setProcess(process);
+                checkdayRecord.setCheckdayUuid(checkday.getUuid());
+                checkdayRecord.setCheckdata(checkday.getCheckdata());
+                checkdayRecordDao.insert(checkdayRecord);
+            }
+            return JsonUtils.getInstance().formatLayerJson(0, "success");
+        } else {
+            return JsonUtils.getInstance().formatLayerJson(200, "已存在数据");
         }
-        return JsonUtils.getInstance().formatLayerJson(0, "success", null);
     }
 
     @Override
@@ -429,17 +441,16 @@ public class NormalRecordAddServiceImpl implements NormalRecordAddService {
         String ischeck = request.getParameter("ischeck");
         String checkperson = request.getParameter("checkperson");
         CheckdayRecord one = checkdayRecordDao.selectOne(new QueryWrapper<CheckdayRecord>().eq("uuid", uuid));
-        if (one == null) {
+        Checkday checkday = checkdayDao.selectOne(new QueryWrapper<Checkday>().eq("uuid", one.getCheckdayUuid()));
+        if (checkday == null) {
             return JsonUtils.getInstance().formatLayerJson(300, "找不到记录", null);
         }
         one.setCheckperson(checkperson);
         one.setIscheck(ischeck);
         one.setCheckdata(checkdata);
+        checkday.setCheckdata(checkdata);
         int flag = checkdayRecordDao.updateById(one);
-        if (1 == flag) {
-            return JsonUtils.getInstance().formatLayerJson(0, "success", 1, JSON.toJSONString(one));
-        } else {
-            return JsonUtils.getInstance().formatLayerJson(200, "failed", null);
-        }
+        int flag1 = checkdayDao.updateById(checkday);
+        return Utils.returnJson(flag, flag1);
     }
 }

@@ -181,8 +181,12 @@
                             data: data,    //参数值
                             type: "GET",   //请求方式
                             success: function (req) {
-                                //请求成功时处理
-                                layer.msg('已经删除' + data.workingshiftdate + workingShift + '的记录');
+                                if (req.code == 0) {
+                                    //请求成功时处理
+                                    layer.msg('已经删除' + data.workingshiftdate + workingShift + '的记录');
+                                } else {
+                                    layer.msg('Failed: ' + req.msg);
+                                }
                             }
                         });
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存

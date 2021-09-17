@@ -60,19 +60,19 @@
                 </table>
             </div>
             <div class="layui-form-item layui-form-text">
-                <table id="checkday_table" class="layui-table layui-form" lay-filter="checkday_table"></table>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">文件更新</label>
+                <label class="layui-form-label">注意事项</label>
                 <div class="layui-input-block">
-                    <textarea id="fileupdate" name="fileupdate" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea id="importantmatter" name="importantmatter" placeholder="请输入内容"
+                              class="layui-textarea"></textarea>
                 </div>
             </div>
+            <div class="layui-form-item layui-form-text">
+                <table id="checkday_table" class="layui-table layui-form" lay-filter="checkday_table"></table>
+            </div>
             <!--            <div class="layui-form-item layui-form-text">-->
-            <!--                <label class="layui-form-label">注意事项</label>-->
+            <!--                <label class="layui-form-label">文件更新</label>-->
             <!--                <div class="layui-input-block">-->
-            <!--                    <textarea id="importantmatter" name="importantmatter" placeholder="请输入内容"-->
-            <!--                              class="layui-textarea"></textarea>-->
+            <!--                    <textarea id="fileupdate" name="fileupdate" placeholder="请输入内容" class="layui-textarea"></textarea>-->
             <!--                </div>-->
             <!--            </div>-->
             <div class="layui-form-item layui-form-text">
@@ -184,7 +184,7 @@
     <div class="layui-btn-container">
         <!--        <button type="button" class="layui-btn layui-btn-sm" lay-event="addPause">添加叫停</button>-->
         <button type="button" class="layui-btn layui-btn-sm" id="addCheckDay"
-                lay-filter="addCheckDay" lay-event="addCheckDay">添加每日检查项
+                lay-filter="addCheckDay" lay-event="addCheckDay">添加每班检查项
         </button>
     </div>
 </script>
@@ -425,7 +425,7 @@
 
             });
 
-        //每日检查项目
+        //每班检查项目
         table.render({
             elem: '#checkday_table'
             , url: '/getCheckDayRecord'
@@ -440,7 +440,7 @@
             , cols: [[ //表头
                 {field: 'uuid', width: 90, title: 'UUID', hide: true},
                 {field: 'CheckDayUUID', width: 90, title: 'CheckDayUUID', hide: true},
-                {field: 'checkdata', title: '每日检查项', edit: 'text'},
+                {field: 'checkdata', title: '每班检查项', edit: 'text'},
                 {field: 'ischeck', title: '是否核实', width: 100, templet: "#switchCheck"},
                 {field: 'checkperson', title: '核实人', width: 100, edit: 'text'},
                 {title: '操作', width: 100, align: 'center', toolbar: '#checkday_table_tool'}

@@ -23,6 +23,15 @@ function renderForm() {
     });
 }
 
+function tableReload(id, url) {
+    layui.use('table', function () {
+        var table = layui.table;
+        table.reload(id, {
+            url: url
+        });
+    })
+}
+
 function getDateNow() {
     // 获取当前日期
     var date = new Date();
@@ -276,23 +285,21 @@ function createCheckDayRecord(process, workShiftDate, workingShift) {
         },    //参数值
         type: "GET",   //请求方式
         success: function (req) {
-
+            loadCheckDayRecord(process, workShiftDate, workingShift);
         }
     });
 }
 
 function loadCheckDayRecord(process, workShiftDate, workingShift) {
-    $.ajax({
-        url: "/getCheckDayRecord",    //请求的url地址
-        dataType: "json",   //返回格式为json
-        data: {
-            "process": process,
-            "workShiftDate": workShiftDate,
-            "workingShift": workingShift
-        },    //参数值
-        type: "GET",   //请求方式
-        success: function (req) {
-
-        }
-    });
+    layui.use('table', function () {
+        var table = layui.table;
+        table.reload('checkday_table', {
+            url: '/getCheckDayRecord',
+            where: {
+                "process": process,
+                "workShiftDate": workShiftDate,
+                "workingShift": workingShift
+            }
+        });
+    })
 }

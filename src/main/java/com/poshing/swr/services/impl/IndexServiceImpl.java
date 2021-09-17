@@ -10,10 +10,12 @@ import com.poshing.swr.entity.Process;
 import com.poshing.swr.entity.Record;
 import com.poshing.swr.services.IndexService;
 import com.poshing.swr.utils.JsonUtils;
+import com.poshing.swr.utils.Utils;
 import com.poshing.swr.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +62,9 @@ public class IndexServiceImpl implements IndexService {
 
     @Resource
     private UnqualifiedDao unqualifiedDao;
+
+    @Resource
+    private CheckdayRecordDao checkdayRecordDao;
 
     @Override
     public String getAllProcess() {
@@ -153,6 +158,7 @@ public class IndexServiceImpl implements IndexService {
         return JsonUtils.getInstance().formatLayerJson(0, "success", json);
     }
 
+    @Transactional
     @Override
     public String deleteRecord(HttpServletRequest request) {
         String uuid = request.getParameter("uuid");
@@ -168,7 +174,11 @@ public class IndexServiceImpl implements IndexService {
         int unqualifiedFlag = unqualifiedDao.deleteByMap(map);
         int recordFlag = recordDao.delete(new QueryWrapper<Record>()
                 .eq("uuid", uuid));
-        return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+        int checkdayrecordFlag = checkdayRecordDao.delete(new QueryWrapper<CheckdayRecord>()
+                .eq("process", process)
+                .eq("workingshift", workingshift)
+                .eq("workshiftdate", date));
+        return Utils.returnJson(equipmentRecordFlag, toolRecordFlag, unqualifiedFlag, recordFlag, checkdayrecordFlag);
     }
 
     @Override

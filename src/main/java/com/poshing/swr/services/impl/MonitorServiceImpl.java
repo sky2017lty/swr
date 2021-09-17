@@ -14,7 +14,10 @@ import com.poshing.swr.utils.DateUtils;
 import com.poshing.swr.utils.JsonUtils;
 import com.poshing.swr.utils.Utils;
 import com.poshing.swr.utils.UuidUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +30,8 @@ import java.util.List;
  */
 @Service
 public class MonitorServiceImpl implements MonitorService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonitorServiceImpl.class);
 
     @Resource
     private PauseRecordDao pauseRecordDao;
@@ -197,17 +202,25 @@ public class MonitorServiceImpl implements MonitorService {
         return JSON.toJSONString(one);
     }
 
+    @Transactional
     @Override
     public String deleteMonitorRecord(HttpServletRequest request) {
         String uuid = request.getParameter("uuid");
-        String date = request.getParameter("date");
+        String date = request.getParameter("workingshiftdate");
         String workingshift = request.getParameter("workingshift");
+        LOGGER.debug("uuid: " + uuid);
+        LOGGER.debug("date: " + date);
+        LOGGER.debug("workingshift: " + workingshift);
         int monitorRecordFlag = monitorRecordDao.delete(new QueryWrapper<MonitorRecord>()
                 .eq("uuid", uuid));
         int pauseRecordFlag = pauseRecordDao.delete(new QueryWrapper<PauseRecord>()
                 .eq("workingshiftdate", date)
                 .eq("workingshift", workingshift));
-        return JsonUtils.getInstance().formatLayerJson(0, "success", null);
+        int checkdayrecordFlag = checkdayRecordDao.delete(new QueryWrapper<CheckdayRecord>()
+                .eq("workshiftdate", date)
+                .eq("workingshift", workingshift)
+                .eq("process", "Monitor"));
+        return Utils.returnJson(monitorRecordFlag, pauseRecordFlag, checkdayrecordFlag);
     }
 
     @Override

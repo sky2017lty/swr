@@ -15,15 +15,16 @@ public class Utils {
     /**
      * 判断是否修改数据库成功
      *
-     * @param flag
+     * @param flags
      * @return
      */
-    public static String returnJson(int flag) {
-        if (1 == flag) {
-            return JsonUtils.getInstance().formatLayerJson(0, "success");
-        } else {
-            return JsonUtils.getInstance().formatLayerJson(200, "failed");
+    public static String returnJson(int... flags) {
+        for (int flag : flags) {
+            if (flag == 0) {
+                return JsonUtils.getInstance().formatLayerJson(200, "failed");
+            }
         }
+        return JsonUtils.getInstance().formatLayerJson(0, "success");
     }
 
     /**
